@@ -1,0 +1,38 @@
+[package]
+name = "linktools"
+version = "0.1.0"
+edition = "2024"
+description = "Core library for LinkLiar MAC address tools"
+license = "MIT"
+authors = ["LinkLiar Contributors"]
+
+[lib]
+name = "linktools"
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+lazy_static = "1.4"
+libc = "0.2"
+rand = "0.8"
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "benches"
+harness = false
+
+[[example]]
+name = "demo"
+path = "examples/demo.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[profile.bench]
+opt-level = 3
