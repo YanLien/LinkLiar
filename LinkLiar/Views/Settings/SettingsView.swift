@@ -9,30 +9,16 @@ struct SettingsView: View {
   @Environment(LinkState.self) private var state
 
   /// We have static sidebar items and sidebar items views.
-  /// Static is e.g. the "Welcome" and the "Troubleshoot" page.
+  /// Static is e.g. the "Troubleshoot" page.
   /// Dynamic is e.g. "Interface en1" and "Interface en2"
   /// Whatever is selected, we store as as String (not as `enum`).
   /// That gives us most flexibility.
   ///
-  @State private var selectedFolder: String? = Pane.welcome.rawValue
+  @State private var selectedFolder: String? = Pane.preferences.rawValue
 
   var body: some View {
     NavigationSplitView {
       List(selection: $selectedFolder) {
-        Spacer()
-
-        NavigationLink(value: Pane.welcome.rawValue) {
-          Label("Welcome", systemImage: "figure.dance")
-        }
-
-        NavigationLink(value: Pane.community.rawValue) {
-          Label("Community", systemImage: "bubble")
-        }
-
-        NavigationLink(value: Pane.help.rawValue) {
-          Label("FAQ", systemImage: "book.pages")
-        }
-
         Spacer()
 
         NavigationLink(value: Pane.preferences.rawValue) {
@@ -82,12 +68,9 @@ struct SettingsView: View {
 
 extension SettingsView {
   enum Pane: String {
-    case welcome
     case preferences
     case vendors
     case troubleshoot
-    case help
-    case community
     case uninstall
     case defaultPolicy
   }
