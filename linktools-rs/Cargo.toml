@@ -17,9 +17,14 @@ thiserror = "1.0"
 lazy_static = "1.4"
 libc = "0.2"
 rand = "0.8"
+ureq = "2"
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bin]]
+name = "generate-vendors"
+path = "src/bin/generate_vendors.rs"
 
 [[bench]]
 name = "benches"
