@@ -18,7 +18,6 @@ struct PopularVendors {
   /// - returns: A ``Vendor`` if found and `nil` if missing.
   ///
   static func find(_ id: String) -> Vendor? {
-    // Use Rust database - 40+ vendors, 8x faster lookup
     let id = id.filter("0123456789abcdefghijklmnopqrstuvwxyz".contains)
     guard let vendorData = PopularVendorsDatabase.dictionaryWithCounts[id] else { return nil }
 
@@ -30,22 +29,6 @@ struct PopularVendors {
 
   static func find(_ ids: [String]) -> [Vendor] {
     ids.compactMap { find($0) }.sorted()
-  }
-
-  // MARK: Random MAC Generation
-
-  ///
-  /// Generate a random MAC address for a specific vendor.
-  /// Uses Rust implementation - faster and supports all vendors in database.
-  ///
-  /// - parameter vendor: The vendor to generate a MAC for
-  /// - returns: A random MAC address string, or nil if vendor not found
-  ///
-  static func randomMAC(for vendor: Vendor) -> MAC? {
-    guard let macString = RustBridge.shared.randomMAC(forVendor: vendor.id) else {
-      return nil
-    }
-    return MAC(macString)
   }
 
   // MARK: Class Properties

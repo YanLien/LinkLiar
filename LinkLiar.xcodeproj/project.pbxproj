@@ -904,6 +904,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		C2ADC8AF2B23A954002A2905 /* Run Linter */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 12;
 			files = (
 			);
