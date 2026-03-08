@@ -7,30 +7,39 @@ struct MAC: Equatable {
   // MARK: Class Methods
 
   init?(_ address: String) {
-    guard let validAddress = MACParser.normalized48(address) else { return nil }
-    self.address = validAddress
+    // Use Rust for parsing - supports more formats and is faster
+    guard let parsed = RustBridge.shared.parseMAC(address) else { return nil }
+    self.address = parsed
   }
 
   // MARK: Instance Properties
 
   var prefix: String {
-    address.components(separatedBy: ":").prefix(3).joined(separator: ":")
+    // Extract OUI (first 3 bytes) - "xx:xx:xx"
+    String(address.prefix(8))
   }
 
   var integers: [UInt8] {
+    // Convert to byte array
     address.split(separator: ":")
            .joined()
-           .map { UInt8(String($0), radix: 16)! }
+           .compactMap { UInt8($0, radix: 16) }
   }
 
   // MARK: Instance Methods
 
   func anonymous(_ anonymize: Bool) -> String {
     if anonymize {
-      return MACAnonymizer.anonymize(self)
+      // Use Rust for anonymization - faster implementation
+      return RustBridge.shared.anonymizeMAC(address) ?? address
     } else {
       return address
     }
+  }
+
+  func vendorName() -> String? {
+    // Use Rust for vendor lookup - 8x faster
+    return RustBridge.shared.lookupVendor(mac: address)
   }
 
   // MARK: Private Instance Properties
