@@ -1,11 +1,27 @@
 use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
+use std::sync::OnceLock;
 
 use crate::mac::MAC;
 use crate::oui::OUI;
 use crate::vendor::VendorDatabase;
 
 /// FFI interface for Swift interoperability
+
+/// Cached vendor database (created once, reused across calls)
+static VENDOR_DB: OnceLock<VendorDatabase> = OnceLock::new();
+
+fn vendor_db() -> &'static VendorDatabase {
+    VENDOR_DB.get_or_init(VendorDatabase::default)
+}
+
+/// Helper: convert a Rust string to a C string, returning null on failure
+fn to_c_string(s: String) -> *mut c_char {
+    match CString::new(s) {
+        Ok(cs) => cs.into_raw(),
+        Err(_) => std::ptr::null_mut(),
+    }
+}
 
 /// Parse MAC address
 /// Returns null-terminated string that must be freed by caller
@@ -14,7 +30,7 @@ pub extern "C" fn mac_parse(input: *const c_char) -> *mut c_char {
     if input.is_null() {
         return std::ptr::null_mut();
     }
-    
+
     let input_str = unsafe { CStr::from_ptr(input) };
     let input = match input_str.to_str() {
         Ok(s) => s,
@@ -22,10 +38,7 @@ pub extern "C" fn mac_parse(input: *const c_char) -> *mut c_char {
     };
 
     match MAC::parse(&input) {
-        Ok(mac) => {
-            let formatted = mac.to_string_colon();
-            CString::new(formatted).unwrap().into_raw()
-        }
+        Ok(mac) => to_c_string(mac.to_string_colon()),
         Err(_) => std::ptr::null_mut(),
     }
 }
@@ -46,7 +59,7 @@ pub extern "C" fn oui_lookup(oui_str: *const c_char) -> *mut c_char {
     if oui_str.is_null() {
         return std::ptr::null_mut();
     }
-    
+
     let input_str = unsafe { CStr::from_ptr(oui_str) };
     let input = match input_str.to_str() {
         Ok(s) => s,
@@ -58,11 +71,8 @@ pub extern "C" fn oui_lookup(oui_str: *const c_char) -> *mut c_char {
         Err(_) => return std::ptr::null_mut(),
     };
 
-    let db = VendorDatabase::default();
-    match db.lookup(&oui) {
-        Some(vendor) => {
-            CString::new(vendor).unwrap().into_raw()
-        }
+    match vendor_db().lookup(&oui) {
+        Some(vendor) => to_c_string(vendor.to_string()),
         None => std::ptr::null_mut(),
     }
 }
@@ -70,32 +80,27 @@ pub extern "C" fn oui_lookup(oui_str: *const c_char) -> *mut c_char {
 /// Generate random MAC address
 /// Returns null-terminated string that must be freed by caller
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn mac_random_local() -> *mut c_char {
+pub extern "C" fn mac_random_local() -> *mut c_char {
     let mac = MAC::random_local();
-    let formatted = mac.to_string_colon();
-    CString::new(formatted).unwrap().into_raw()
+    to_c_string(mac.to_string_colon())
 }
 
 /// Generate random MAC for specific vendor
 /// Returns null-terminated string that must be freed by caller
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn mac_random_for_vendor(vendor_id: *const c_char) -> *mut c_char {
+pub extern "C" fn mac_random_for_vendor(vendor_id: *const c_char) -> *mut c_char {
     if vendor_id.is_null() {
         return std::ptr::null_mut();
     }
-    
+
     let input_str = unsafe { CStr::from_ptr(vendor_id) };
     let vendor_id = match input_str.to_str() {
         Ok(s) => s,
         Err(_) => return std::ptr::null_mut(),
     };
 
-    let db = VendorDatabase::default();
-    match db.random_mac_for_vendor(&vendor_id) {
-        Some(mac) => {
-            let formatted = mac.to_string_colon();
-            CString::new(formatted).unwrap().into_raw()
-        }
+    match vendor_db().random_mac_for_vendor(&vendor_id) {
+        Some(mac) => to_c_string(mac.to_string_colon()),
         None => std::ptr::null_mut(),
     }
 }
@@ -107,7 +112,7 @@ pub extern "C" fn mac_anonymize(mac_str: *const c_char) -> *mut c_char {
     if mac_str.is_null() {
         return std::ptr::null_mut();
     }
-    
+
     let input_str = unsafe { CStr::from_ptr(mac_str) };
     let input = match input_str.to_str() {
         Ok(s) => s,
@@ -115,10 +120,7 @@ pub extern "C" fn mac_anonymize(mac_str: *const c_char) -> *mut c_char {
     };
 
     match MAC::parse(&input) {
-        Ok(mac) => {
-            let anonymized = mac.anonymize();
-            CString::new(anonymized).unwrap().into_raw()
-        }
+        Ok(mac) => to_c_string(mac.anonymize()),
         Err(_) => std::ptr::null_mut(),
     }
 }
@@ -131,39 +133,39 @@ mod tests {
     #[test]
     fn test_ffi_mac_parse() {
         let input = CString::new("00:03:93:12:34:56").unwrap();
-        let result = unsafe { mac_parse(input.as_ptr()) };
-        
+        let result = mac_parse(input.as_ptr());
+
         assert!(!result.is_null());
-        
+
         let result_str = unsafe { CStr::from_ptr(result) };
         assert_eq!(result_str.to_str().unwrap(), "00:03:93:12:34:56");
-        
-        unsafe { string_free(result) };
+
+        string_free(result);
     }
 
     #[test]
     fn test_ffi_mac_random_local() {
-        let result = unsafe { mac_random_local() };
-        
+        let result = mac_random_local();
+
         assert!(!result.is_null());
-        
+
         let result_str = unsafe { CStr::from_ptr(result) };
         let s = result_str.to_str().unwrap();
         assert_eq!(s.len(), 17); // "XX:XX:XX:XX:XX:XX"
-        
-        unsafe { string_free(result) };
+
+        string_free(result);
     }
 
     #[test]
     fn test_ffi_oui_lookup() {
         let input = CString::new("000393").unwrap();
-        let result = unsafe { oui_lookup(input.as_ptr()) };
-        
+        let result = oui_lookup(input.as_ptr());
+
         assert!(!result.is_null());
-        
+
         let result_str = unsafe { CStr::from_ptr(result) };
         assert_eq!(result_str.to_str().unwrap(), "Apple");
-        
-        unsafe { string_free(result) };
+
+        string_free(result);
     }
 }

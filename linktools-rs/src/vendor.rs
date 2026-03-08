@@ -62,6 +62,10 @@ impl VendorDatabase {
         ];
 
         for (id, name, prefixes) in vendors {
+            // Also populate oui_to_name for lookup
+            for prefix in &prefixes {
+                self.oui_to_name.insert(prefix.to_string_hex(), name.to_string());
+            }
             let vendor = VendorInfo {
                 id: id.to_string(),
                 name: name.to_string(),

@@ -43,12 +43,12 @@ class Controller {
 
   static func queryDaemonVersion(state: LinkState) {
     Radio.version(state: state, reply: { version in
-      if version == nil {
+      if let version = version {
+        Log.debug("Received Version")
+        state.daemonVersion = version
+      } else {
         Log.debug("No Version")
         state.daemonVersion = Version("0.0.0")
-      } else {
-        Log.debug("Received Version")
-        state.daemonVersion = version!
       }
     })
   }

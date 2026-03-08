@@ -1,20 +1,64 @@
-name: Test Suite
+name: CI
 
 on:
   push:
     branches:
       - master
+      - dev
   pull_request:
     branches:
       - master
 
 jobs:
-  tests:
+  rust-tests:
+    name: Rust Tests
     runs-on: macos-15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            linktools-rs/target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ runner.os }}-cargo-${{ hashFiles('linktools-rs/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Run Rust tests
+        working-directory: linktools-rs
+        run: cargo test --lib
+
+      - name: Build Rust library (release)
+        working-directory: linktools-rs
+        run: cargo build --release
+
+      - name: Upload Rust library
+        uses: actions/upload-artifact@v4
+        with:
+          name: liblinktools
+          path: linktools-rs/target/release/liblinktools.dylib
+
+  xcode-tests:
+    name: Xcode Build & Tests
+    runs-on: macos-15
+    needs: rust-tests
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Rust library
+        uses: actions/download-artifact@v4
+        with:
+          name: liblinktools
+          path: LinkLiar/
 
       # See https://docs.github.com/en/actions/deployment/installing-an-apple-certificate-on-macos-runners-for-xcode-development
       - name: Install Developer Certificate

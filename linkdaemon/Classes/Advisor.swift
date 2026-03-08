@@ -98,8 +98,8 @@ struct Advisor {
       return arbiter.randomAddress()
     }
 
-    if !arbiter.prefixes.contains(interface.softOUI) {
-      Log.debug("Interface \(interface.bsd.name) has an unallowed prefix \(interface.softOUI.address) randomizing.")
+    if let softOUI = interface.softOUI, !arbiter.prefixes.contains(softOUI) {
+      Log.debug("Interface \(interface.bsd.name) has an unallowed prefix \(softOUI.address) randomizing.")
       return arbiter.randomAddress()
     }
 //    else {

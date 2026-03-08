@@ -34,7 +34,7 @@ struct InterfaceView: View {
           }).buttonStyle(.plain)
         }
 
-        Text(MACVendors.name(interface.softOUI))
+        Text(interface.softOUI.map { MACVendors.name($0) } ?? "No Vendor")
           .font(.system(.footnote, design: .monospaced))
           .opacity(0.5)
 

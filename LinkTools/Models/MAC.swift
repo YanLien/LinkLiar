@@ -20,10 +20,8 @@ struct MAC: Equatable {
   }
 
   var integers: [UInt8] {
-    // Convert to byte array
-    address.split(separator: ":")
-           .joined()
-           .compactMap { UInt8($0, radix: 16) }
+    // Convert colon-separated hex pairs to byte array
+    address.split(separator: ":").compactMap { UInt8($0, radix: 16) }
   }
 
   // MARK: Instance Methods

@@ -26,4 +26,4 @@ LinkLiarHelp/.jekyll-cache
 
 # Rust
 linktools-rs/target/
-liblinktools.dylib
+*.dylib

@@ -129,11 +129,6 @@ cd linktools-rs
 if [ ! -d "target/release" ] || [ ! -f "target/release/liblinktools.dylib" ]; then
     print_info "编译 Rust 库..."
     cargo build --release
-    
-    if [ $? -ne 0 ]; then
-        print_error "Rust 库构建失败"
-        exit 1
-    fi
 else
     print_info "✓ Rust 库已存在，跳过编译"
 fi

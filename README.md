@@ -1,24 +1,29 @@
-[![Version](https://img.shields.io/github/release/halo/LinkLiar.svg?style=flat&label=version)](https://github.com/halo/LinkLiar/releases)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/halo/LinkLiar/blob/master/LICENSE.md)
-[![](https://img.shields.io/github/issues-closed-raw/halo/LinkLiar.svg)](https://github.com/halo/linkliar/issues?q=is%3Aissue+is%3Aclosed)
-[![](https://img.shields.io/github/last-commit/halo/LinkLiar.svg)](https://github.com/halo/LinkLiar/commits/master)
-[![Build Status](https://github.com/halo/LinkLiar/actions/workflows/tests.yml/badge.svg)](https://github.com/halo/LinkLiar/actions)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/halo/LinkLiar)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/YanLien/LinkLiar/blob/master/LICENSE.md)
+[![CI](https://github.com/YanLien/LinkLiar/actions/workflows/tests.yml/badge.svg)](https://github.com/YanLien/LinkLiar/actions)
 
 ## Prevent your Mac from leaking MACs
 
-This is an intuitive macOS status menu application written in Swift to help you spoof the MAC addresses of your Wi-Fi and Ethernet interfaces. It is free open-source.
+An intuitive macOS status bar application written in **Swift + Rust** to help you spoof the MAC addresses of your Wi-Fi and Ethernet interfaces. Free and open-source.
 
-[➡️ How do I install this?](#installation)
+[How do I install this?](#installation)
 
-If you star this project (by clicking on ✭ in the top-right corner), you help me to prioritize among my open-source projects.
+## Architecture
 
-![Screenshot](https://cdn.rawgit.com/halo/LinkLiar/master/docs/screenshot_3.0.1b.svg)
+```
+LinkLiar (SwiftUI)          -- GUI, status bar menu, settings
+  └─ RustBridge (FFI)       -- Swift <-> Rust interop
+      └─ linktools-rs       -- MAC parsing, vendor lookup, random generation
+LinkTools                   -- shared models, config, observers
+linkdaemon                  -- privileged background daemon (runs as root)
+```
+
+Core MAC address operations are implemented in Rust (`linktools-rs/`) and exposed to Swift via C FFI, providing better performance and format support.
 
 ## Requirements
 
-* macOS Sierra (10.12) or later (see [releases](https://github.com/halo/LinkLiar/releases) for older versions).
-* Administrator privileges (you will be asked for your root password *once*).
+* macOS Ventura (13.0) or later
+* Administrator privileges (you will be asked for your root password *once*)
+* Xcode 15.0+ and Rust toolchain (for building from source)
 
 ## Installation
 
@@ -26,61 +31,64 @@ If you have [Homebrew](https://brew.sh), just run `brew install --cask linkliar`
 
 To install it manually, follow [these instructions](http://halo.github.io/LinkLiar/installation.html) in the documentation.
 
+## Building from Source
+
+**Prerequisites**: Xcode 15.0+, Rust toolchain (`curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`)
+
+```bash
+# Quick build
+./build.sh
+
+# Release build
+./build.sh -r
+
+# Clean, build release, and run tests
+./build.sh -c -r -t
+
+# Package as .app / .dmg
+./build.sh -r -p
+```
+
+The build script will:
+1. Compile the Rust library (`linktools-rs`)
+2. Copy `liblinktools.dylib` into the app bundle
+3. Build the Xcode project
+4. Optionally run tests and package
+
 ## Documentation
 
-What you're looking at right now is the technical documentation.
+End-user documentation is at [halo.github.io/LinkLiar](http://halo.github.io/LinkLiar).
 
-The end-user documentation is located at [halo.github.io/LinkLiar](http://halo.github.io/LinkLiar).
+To update the HelpBook, change the source files in [LinkLiarHelp/en.lproj](https://github.com/halo/LinkLiar/tree/master/LinkLiarHelp/en.lproj) and then generate the output with `bin/docs`.
 
-There is also a source-code documentation in progress, see `bin/docs` for inspiration.
+## Limitations
 
-## Limitations/Caveats
-
-* When your Wi-Fi (aka Airport) is turned off, you cannot change its MAC address. You need to turn it on first.
-* If you change a MAC address while the interface is connected, you will briefly loose connection.
-* If you rapidly close and open your MacBook, the MAC address may change while the Wi-Fi connection remains and you loose the connection (that is, if you have configured LinkLiar to re-randomize the MAC address).
-* Whenever you successfully changed your MAC address, your `System Preferences` will still show you the original hardware MAC address.
-  This is normal behavior and your actual network traffic uses the *new*, *changed* MAC address.
-* 2018 MacBooks cannot change their MAC address, [because of a bug in macOS](https://github.com/feross/SpoofMAC/issues/87#issuecomment-485280175).
-* As of macOS 12.3 (Monterey), the MAC address of an interface cannot be modified while connected to a network. That's why LinkLiar will disassociate from any connected network before modifying the MAC address.
+* When Wi-Fi is turned off, its MAC address cannot be changed. Turn it on first.
+* Changing a MAC address while connected will briefly drop the connection.
+* As of macOS 12.3+, the interface must be disassociated from a network before modifying its MAC address. LinkLiar handles this automatically.
+* `System Preferences` will still show the original hardware MAC address. This is normal; actual network traffic uses the spoofed address.
 
 ## Troubleshooting
 
-You can create this logfile and whenever it exists, all  LinkLiar components will write to it:
+Enable logging:
 
 ```bash
 touch "/Library/Application Support/LinkLiar/linkliar.log"
 ```
 
-Delete the log file again to silence logging.
-
-Once LinkLiar is started and the menu is visible, you can hold the Option ⌥ key for advanced options. This is only intended for developers.
-
-If you want a more colorful output, clone this git repository and run `bin/logs`.
-That's what I use when I'm debugging.
-This utility is also bundled in LinkLiar so you can run it with
+Delete the log file to silence logging. For live colorful output:
 
 ```bash
-# Run this in a Terminal for live debugging logs.
 /Applications/LinkLiar.app/Contents/Resources/logs
 ```
 
-## Development
-
-![](./docs/modules_20211004c.svg)
-
-#### HelpBook
-
-To update the HelpBook (end-user documentation), change the *source files* in [LinkLiarHelp/en.lproj](https://github.com/halo/LinkLiar/tree/master/LinkLiarHelp/en.lproj) and *then* generate the output with `bin/docs`.
-
-## Future work
-
-* Add badge with test coverage to README
+Hold the Option key while the menu is visible for advanced options.
 
 ## Thanks
 
-* The icon in `Link/Images.xcassets` is from [Iconmonstr](http://iconmonstr.com).
+* Original project by [halo](https://github.com/halo/LinkLiar)
+* Icon from [Iconmonstr](http://iconmonstr.com)
 
 ## License
 
-MIT 2012-2021 halo. See [MIT-LICENSE](https://github.com/halo/LinkLiar/blob/master/LICENSE.md).
+MIT. See [LICENSE.md](https://github.com/halo/LinkLiar/blob/master/LICENSE.md).
