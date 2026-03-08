@@ -27,3 +27,5 @@ LinkLiarHelp/.jekyll-cache
 # Rust
 linktools-rs/target/
 *.dylib
+
+.claude
