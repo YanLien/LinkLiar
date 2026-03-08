@@ -1,3 +1,14 @@
+//! FFI (Foreign Function Interface) for Swift interoperability.
+//!
+//! This module exposes Rust functions to Swift via C-compatible ABI.
+//! All strings returned from FFI functions are heap-allocated and must be
+//! freed by calling `string_free()`.
+//!
+//! ## Memory Management
+//! - Functions returning `*mut c_char` allocate memory that caller must free
+//! - Use `string_free()` to deallocate strings returned from FFI calls
+//! - All `*const c_char` input parameters are borrowed and not freed by Rust
+
 use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
 use std::sync::OnceLock;

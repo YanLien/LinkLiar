@@ -1,3 +1,8 @@
+//! Vendor database for OUI (MAC prefix) to vendor name lookup.
+//!
+//! The database maps OUI prefixes to manufacturer names.
+//! Popular vendors are hardcoded for fast lookup without loading the full database.
+
 use crate::{MAC, OUI};
 use std::collections::HashMap;
 

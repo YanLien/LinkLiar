@@ -23,6 +23,8 @@ build/
 *.cer
 *.p12
 LinkLiarHelp/.jekyll-cache
+LinkLiarHelp/_site
+docs/
 
 # Rust
 linktools-rs/target/

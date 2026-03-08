@@ -1,7 +1,15 @@
+//! MAC address parsing, formatting, and generation.
+//!
+//! Supports multiple input formats:
+//! - Colon-separated: `AA:BB:CC:DD:EE:FF`
+//! - Hyphen-separated: `AA-BB-CC-DD-EE-FF`
+//! - Dot-separated: `AABB.CCDD.EEFF`
+//! - No separator: `AABBCCDDEEFF`
+
 use std::fmt;
 use std::str::FromStr;
 
-/// Represents a MAC address
+/// Represents a 48-bit MAC address
 #[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct MAC {
     bytes: [u8; 6],

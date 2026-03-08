@@ -1,3 +1,8 @@
+//! Organizationally Unique Identifier (OUI) handling.
+//!
+//! OUI is the first 24 bits (3 bytes) of a MAC address that identifies
+//! the vendor/manufacturer. Used for vendor lookup in the database.
+
 use std::fmt;
 use std::str::FromStr;
 

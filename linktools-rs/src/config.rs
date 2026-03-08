@@ -1,3 +1,8 @@
+//! Application configuration management.
+//!
+//! Handles reading/writing JSON configuration files that define
+//! MAC address spoofing behavior for each network interface.
+
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
