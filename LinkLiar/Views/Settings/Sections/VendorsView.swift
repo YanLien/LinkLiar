@@ -11,11 +11,11 @@ extension SettingsView {
     @State private var selectedVendors = Set<Vendor.ID>()
 
     var body: some View {
-      VStack {
+      VStack(spacing: 16) {
         Text("""
              When LinkLiar is supposed to randomize the MAC address of an Interface, \
              you can tell it here from which vendors it should pick a prefix.
-             """) // .multilineTextAlignment(.leading)
+             """)
 
         Table(state.config.vendors.popular, selection: $selectedVendors) {
 
@@ -34,12 +34,14 @@ extension SettingsView {
             Text("\(vendor.prefixCount)")
           }.width(50)
         }
-      }.padding().onAppear {
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-          if Int(event.keyCode) == CGKeyCode.kVKSpace {
-            toggleSelectedVendors()
+        .padding()
+        .onAppear {
+          NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            if Int(event.keyCode) == CGKeyCode.kVKSpace {
+              toggleSelectedVendors()
+            }
+            return event // No need to modify or otherwise intercept the received event.
           }
-          return event // No need to modify or otherwise intercept the received event.
         }
       }
     }
@@ -77,5 +79,5 @@ extension SettingsView {
 #Preview {
    let state = LinkState()
 
-  return SettingsView.VendorsView().environment(state)
+   return SettingsView.VendorsView().environment(state)
 }

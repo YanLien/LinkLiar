@@ -6,8 +6,13 @@
 //! ## Modules
 //! - [`MAC`] - MAC address parsing, formatting, and generation
 //! - [`OUI`] - Organizationally Unique Identifier (first 3 bytes of MAC)
+//! - [`BSSID`] - Basic Service Set Identifier (WiFi access point MAC)
+//! - [`SSID`] - Service Set Identifier (WiFi network name)
 //! - [`VendorDatabase`] - OUI to vendor name lookup
 //! - [`Config`] - Application configuration management
+//! - [`MacBatch`] - Batch operations for multiple MAC addresses
+//! - [`OuiBatch`] - Batch OUI lookups
+//! - [`MacSimilarity`] - MAC address similarity comparison
 //!
 //! ## Usage
 //! ```rust
@@ -23,8 +28,16 @@ mod oui;
 mod vendor;
 mod config;
 mod ffi;
+mod bssid;
+mod ssid;
+mod batch;
+
+// Swift bridge - must be included as public module
+pub mod bridge;
 
 pub use mac::MAC;
 pub use oui::OUI;
 pub use vendor::VendorDatabase;
 pub use config::Config;
+pub use bssid::BSSID;
+pub use ssid::SSID;

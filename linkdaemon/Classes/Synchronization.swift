@@ -6,7 +6,6 @@ import Foundation
 
 class Synchronization {
   // MARK: Class Methods
-
   init(interface: Interface, arbiter: Config.Arbiter) {
     self.interface = interface
     self.arbiter = arbiter
@@ -26,7 +25,6 @@ class Synchronization {
   var advisor: Advisor
 
   // MARK: Private Instance Properties
-
   private var interface: Interface
   private var arbiter: Config.Arbiter
 }

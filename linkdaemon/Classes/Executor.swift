@@ -80,7 +80,6 @@ class Executor {
   }
 
   // MARK: Private Instance Properties
-
   private var config: Config.Reader = Config.Reader([:])
   private var interfaces: [Interface] = []
   private var synchronizations = [String: Synchronization]()
@@ -88,7 +87,6 @@ class Executor {
   private let interfaceQueue = DispatchQueue(label: "\(Identifiers.daemon).parallelInterfaceQueue", attributes: .concurrent)
 
   // MARK: Private Instance Methods
-
   private func queued(_ block: () -> Void) {
     // ...because we don't want race-conditions when reading the configuration file
     // and comparing that with the currently attached hardware interfaces.

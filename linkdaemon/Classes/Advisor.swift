@@ -6,7 +6,6 @@ import Foundation
 
 struct Advisor {
   // MARK: Class Methods
-
   init(interface: Interface, arbiter: Config.Arbiter) {
     self.interface = interface
     self.arbiter = arbiter

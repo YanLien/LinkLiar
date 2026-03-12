@@ -42,6 +42,11 @@ impl MAC {
         [self.bytes[0], self.bytes[1], self.bytes[2]]
     }
 
+    /// Get the OUI as an OUI object
+    pub fn to_oui(&self) -> crate::oui::OUI {
+        crate::oui::OUI::new(self.oui())
+    }
+
     /// Get the NIC suffix (last 3 bytes)
     pub fn nic(&self) -> [u8; 3] {
         [self.bytes[3], self.bytes[4], self.bytes[5]]
@@ -124,6 +129,11 @@ impl MAC {
     /// Get raw bytes
     pub fn as_bytes(&self) -> &[u8; 6] {
         &self.bytes
+    }
+
+    /// Get raw bytes as owned array
+    pub fn bytes(&self) -> [u8; 6] {
+        self.bytes
     }
 
     fn parse_hex_bytes(hex: &str) -> Result<[u8; 6], MACError> {

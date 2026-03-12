@@ -6,6 +6,7 @@ import SwiftUI
 struct MenuView: View {
   @State var observer: NSKeyValueObservation?
   @Environment(LinkState.self) private var state
+  @Environment(\.openSettings) private var openSettings
 
   @State var selectedItem: String = ""
   @State var items = ["One", "Two"]
@@ -24,8 +25,12 @@ struct MenuView: View {
       }
 
       HStack {
-        SettingsLink {
-//          Image(systemName: "gear").imageScale(.medium)
+        Button {
+          // Activate the app to bring it to front
+          NSApp.activate(ignoringOtherApps: true)
+          // Open settings window
+          openSettings()
+        } label: {
           Text("Settings")
         }.keyboardShortcut(",", modifiers: .command)
           .buttonStyle(.accessoryBar)

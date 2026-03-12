@@ -49,6 +49,11 @@ impl OUI {
         &self.bytes
     }
 
+    /// Get raw bytes as owned array
+    pub fn bytes(&self) -> [u8; 3] {
+        self.bytes
+    }
+
     /// Convert to u32
     pub fn to_u32(&self) -> u32 {
         ((self.bytes[0] as u32) << 16) 

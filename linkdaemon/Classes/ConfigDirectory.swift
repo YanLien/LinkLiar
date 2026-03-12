@@ -5,7 +5,6 @@ import Foundation
 
 struct ConfigDirectory {
   // MARK: Class Methods
-
   static func ensure() {
     ensureDirectory()
     ensureDirectoryPermissions()
@@ -14,11 +13,9 @@ struct ConfigDirectory {
   }
 
   // MARK: Private Instance Properties
-
   private static let manager = FileManager.default
 
   // MARK: Private Instance Methods
-
   private static func ensureDirectory() {
     do {
       try manager.createDirectory(atPath: Paths.configDirectory, withIntermediateDirectories: false)
@@ -34,7 +31,6 @@ struct ConfigDirectory {
   private static func ensureDirectoryPermissions() {
     // Readable and executable directory, so that the GUI may access it at all.
     let directoryPermissions: [FileAttributeKey: Any] = [.posixPermissions: 0o775]
-
     do {
       try manager.setAttributes(directoryPermissions, ofItemAtPath: Paths.configDirectory)
       Log.debug("Did set permissions of config directory at \(Paths.configDirectory) to \(directoryPermissions)")

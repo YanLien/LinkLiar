@@ -46,6 +46,17 @@ class Radio {
     })
   }
 
+  /// Force the daemon to immediately run a synchronization
+  static func forceRun(state: LinkState, completion: @escaping () -> Void = {}) {
+    transceive(state: state, block: { listener in
+      listener.forceRun(reply: { success in
+        Log.debug("Daemon forceRun completed successfully: \(success)")
+        state.xpcStatus = .connected
+        completion()
+      })
+    })
+  }
+
 //  static func uninstallDaemon(reply: @escaping (Bool) -> Void) {
 //    usingHelper(block: { helper in
 //      helper.uninstallDaemon(reply: { success in

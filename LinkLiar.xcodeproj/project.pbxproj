@@ -12,7 +12,6 @@
 		C20B96C02B76ACF900F1E2E8 /* PopularVendorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20B96BF2B76ACF900F1E2E8 /* PopularVendorsTests.swift */; };
 		C225BDAA2B1FBA3100FFD119 /* ConfigDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225BDA92B1FBA3100FFD119 /* ConfigDirectory.swift */; };
 		C225BDAD2B1FBA3A00FFD119 /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225BDAB2B1FBA3A00FFD119 /* Executor.swift */; };
-		C225BDB02B1FBA4000FFD119 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225BDAF2B1FBA4000FFD119 /* Listener.swift */; };
 		C22F21AA2B010C970086B621 /* JSONReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22F21A92B010C970086B621 /* JSONReader.swift */; };
 		C22F21AB2B010C970086B621 /* JSONReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22F21A92B010C970086B621 /* JSONReader.swift */; };
 		C23F0DC72B6692B100EE94F5 /* MACTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DC62B6692B100EE94F5 /* MACTest.swift */; };
@@ -245,7 +244,6 @@
 		C20B96BF2B76ACF900F1E2E8 /* PopularVendorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularVendorsTests.swift; sourceTree = "<group>"; };
 		C225BDA92B1FBA3100FFD119 /* ConfigDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigDirectory.swift; path = Classes/ConfigDirectory.swift; sourceTree = "<group>"; };
 		C225BDAB2B1FBA3A00FFD119 /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Executor.swift; path = Classes/Executor.swift; sourceTree = "<group>"; };
-		C225BDAF2B1FBA4000FFD119 /* Listener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Listener.swift; path = Classes/Listener.swift; sourceTree = "<group>"; };
 		C22F21A92B010C970086B621 /* JSONReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONReader.swift; sourceTree = "<group>"; };
 		C23F0DC62B6692B100EE94F5 /* MACTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACTest.swift; sourceTree = "<group>"; };
 		C23F0DC92B66B87300EE94F5 /* BSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BSD.swift; path = Models/BSD.swift; sourceTree = "<group>"; };
@@ -395,7 +393,6 @@
 				C2F3DA2C2B36C71A00977572 /* Synchronization.swift */,
 				C245703F2B49DC9B007D7AEA /* Advisor.swift */,
 				C245701D2B3E032C007D7AEA /* WifiState.swift */,
-				C225BDAF2B1FBA4000FFD119 /* Listener.swift */,
 				C225BDA92B1FBA3100FFD119 /* ConfigDirectory.swift */,
 				C2D819512B2A2FDC00991D38 /* Ifconfig.Setter.swift */,
 			);
@@ -1114,7 +1111,6 @@
 				C2F7017A2B74FB63001390E1 /* OUIs.swift in Sources */,
 				C2456FEF2B3B1809007D7AEA /* NetworkObserver.swift in Sources */,
 				C2456FDB2B3B16F7007D7AEA /* OUI.swift in Sources */,
-				C225BDB02B1FBA4000FFD119 /* Listener.swift in Sources */,
 				C24570402B49DC9B007D7AEA /* Advisor.swift in Sources */,
 				C2F3DA2D2B36C71A00977572 /* Synchronization.swift in Sources */,
 				C2F701762B74F771001390E1 /* PopularVendors.swift in Sources */,
@@ -1282,7 +1278,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LinkLiar/Preview Content\"";
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1313,7 +1309,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LinkLiar/Preview Content\"";
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1415,7 +1411,7 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
 				OTHER_CODE_SIGN_FLAGS = "\"-i io.github.halo.LinkLiar.linkdaemon\\\"\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiar.linkdaemon;
@@ -1432,7 +1428,7 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
 				OTHER_CODE_SIGN_FLAGS = "\"-i io.github.halo.LinkLiar.linkdaemon\\\"\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiar.linkdaemon;

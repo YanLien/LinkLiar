@@ -4,11 +4,10 @@
 import Cocoa
 import SystemConfiguration
 
-struct  NetworkObserver {
+struct NetworkObserver {
   let callback: () -> Void
 
   // MARK: Class Methods
-
   init(callback: @escaping () -> Void) {
     self.callback = callback
 
@@ -30,7 +29,6 @@ struct  NetworkObserver {
   }
 
   // MARK: Private Class Methods
-
   // I wish we could use `NetworkObserver.observe` with a callback closure.
   // But callback types are not compatible with what the SystemConfiguration framework calls.
   // So we resort to sending global notifications that anyone may subscribe to.

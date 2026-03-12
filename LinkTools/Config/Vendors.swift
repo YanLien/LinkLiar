@@ -8,9 +8,19 @@ extension Config {
 
     var dictionary: [String: Any]
 
+    // MARK: Private Instance Properties
+
+    private var useRustBackend: Bool {
+      // Rust backend integration is pending Xcode project configuration
+      // Set to false for now to use Swift implementation
+      dictionary["useRustBackend"] as? Bool ?? false
+    }
+
+    // MARK: Public Instance Properties
+
     // Proxy them, so that the state is observed.
     var popular: [Vendor] {
-      PopularVendors.all
+      useRustBackend ? RustVendors.all : PopularVendors.all
     }
 
     func isChosen(_ vendor: Vendor) -> Bool {
@@ -24,7 +34,7 @@ extension Config {
       guard let vendorIDs = dictionary[Config.Key.vendors.rawValue] as? [String] else { return [] }
 
       let vendors = Set(vendorIDs).compactMap { string -> Vendor? in
-        PopularVendors.find(string)
+        useRustBackend ? RustVendors.find(string) : PopularVendors.find(string)
       }
 
       return Array(vendors).sorted()

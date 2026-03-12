@@ -67,6 +67,14 @@ struct InterfaceView: View {
         Button("Randomize now") {
           Log.debug("Force randomization...")
           Config.Writer(state).resetExceptionAddress(interface: interface)
+
+          // Trigger daemon to run immediately via XPC
+          Radio.forceRun(state: state) {
+            // After daemon runs, trigger UI refresh
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+              NotificationCenter.default.post(name: .manualTrigger, object: nil)
+            }
+          }
         }
       }
     }
