@@ -3,7 +3,41 @@
 
 import Foundation
 
+/// Vendor information for storage and caching
+struct VendorInfo: Codable {
+  let id: String
+  let name: String
+  let prefixCount: Int
+}
+
 struct PopularVendors {
+  
+  // MARK: - Cached Vendor Data
+  
+  /// Cached vendor info from updates
+  private static var cachedVendors: [String: VendorInfo] = [:]
+  private static var cacheLoaded = false
+  
+  /// Load cached vendors from file if available
+  private static func loadCacheIfNeeded() {
+    guard !cacheLoaded else { return }
+    cacheLoaded = true
+    
+    guard FileManager.default.fileExists(atPath: Paths.popularVendorsFile),
+          let data = try? Data(contentsOf: URL(fileURLWithPath: Paths.popularVendorsFile)),
+          let vendors = try? JSONDecoder().decode([String: VendorInfo].self, from: data) else {
+      return
+    }
+    cachedVendors = vendors
+  }
+  
+  /// Reload vendor cache (called when database is updated)
+  static func reloadCache() {
+    cacheLoaded = false
+    cachedVendors = [:]
+    loadCacheIfNeeded()
+  }
+  
   // MARK: Class Methods
 
   ///
@@ -19,6 +53,14 @@ struct PopularVendors {
   ///
   static func find(_ id: String) -> Vendor? {
     let id = id.filter("0123456789abcdefghijklmnopqrstuvwxyz".contains)
+    
+    // First check cached (updated) vendors
+    loadCacheIfNeeded()
+    if let cached = cachedVendors[id] {
+      return Vendor(id: cached.id, name: cached.name, prefixCount: cached.prefixCount)
+    }
+    
+    // Fall back to static database
     guard let vendorData = PopularVendorsDatabase.dictionaryWithCounts[id] else { return nil }
 
     guard let name = vendorData.keys.first else { return nil }
@@ -34,7 +76,17 @@ struct PopularVendors {
   // MARK: Class Properties
 
   static var all: [Vendor] {
-    PopularVendorsDatabase.dictionaryWithCounts.keys.reversed().compactMap {
+    loadCacheIfNeeded()
+    
+    // If we have cached vendors, use them
+    if !cachedVendors.isEmpty {
+      return cachedVendors.values
+        .map { Vendor(id: $0.id, name: $0.name, prefixCount: $0.prefixCount) }
+        .sorted()
+    }
+    
+    // Fall back to static database
+    return PopularVendorsDatabase.dictionaryWithCounts.keys.reversed().compactMap {
       find($0)
     }.sorted()
   }
@@ -47,12 +99,12 @@ enum RustVendors {
 
   // MARK: - Type Aliases
 
-  typealias VendorInfo = (id: String, name: String, ouiCount: Int)
+  typealias RustVendorInfo = (id: String, name: String, ouiCount: Int)
 
   // MARK: - Popular Vendors
 
   /// Returns a list of all popular vendors with their OUI counts.
-  static var allPopular: [VendorInfo] {
+  static var allPopular: [RustVendorInfo] {
     [
       ("apple", "Apple", 1133),
       ("cisco", "Cisco", 1084),

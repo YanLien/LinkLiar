@@ -45,6 +45,11 @@ struct MenuView: View {
     }.padding(12)
       .fixedSize()
       .onAppear {
+        // Query daemon registration status on first appear
+        if state.daemonRegistration == .unknown {
+          Controller.queryDaemonRegistration(state: state)
+        }
+        
         // See https://damian.fyi/swift/2022/12/29/detecting-when-a-swiftui-menubarextra-with-window-style-is-opened.html
         // For some reason this also triggers when the Settings view received or loosed focus.
         // I guess that's a good thing.

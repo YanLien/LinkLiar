@@ -176,6 +176,8 @@
 		C2F7015D2B6C380C001390E1 /* BSSID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F7015A2B6C380C001390E1 /* BSSID.swift */; };
 		C2F701662B73FA7C001390E1 /* MACVendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701632B73FA7C001390E1 /* MACVendors.swift */; };
 		C2F701672B73FA7C001390E1 /* MACVendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701632B73FA7C001390E1 /* MACVendors.swift */; };
+		C2VU00012B73FA7C001390E1 /* VendorUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */; };
+		C2VU00032B73FA7C001390E1 /* VendorUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */; };
 		C2F701712B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */; };
 		C2F701722B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */; };
 		C2F701732B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */; };
@@ -345,6 +347,7 @@
 		C2F701572B6C2ECE001390E1 /* BSDTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSDTest.swift; sourceTree = "<group>"; };
 		C2F7015A2B6C380C001390E1 /* BSSID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BSSID.swift; path = Models/BSSID.swift; sourceTree = "<group>"; };
 		C2F701632B73FA7C001390E1 /* MACVendors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MACVendors.swift; path = Backends/MACVendors.swift; sourceTree = "<group>"; };
+		C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VendorUpdater.swift; path = Backends/VendorUpdater.swift; sourceTree = "<group>"; };
 		C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopularVendorsDatabase.swift; path = Backends/PopularVendorsDatabase.swift; sourceTree = "<group>"; };
 		C2F701742B74F771001390E1 /* PopularVendors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopularVendors.swift; path = Backends/PopularVendors.swift; sourceTree = "<group>"; };
 		C2F701782B74FB63001390E1 /* OUIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OUIs.swift; path = Config/OUIs.swift; sourceTree = "<group>"; };
@@ -745,6 +748,7 @@
 			isa = PBXGroup;
 			children = (
 				C2F701632B73FA7C001390E1 /* MACVendors.swift */,
+				C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */,
 			);
 			name = Backends;
 			sourceTree = "<group>";
@@ -970,6 +974,7 @@
 				C20B96BC2B767D0000F1E2E8 /* CGKeyCode+optionKeyPressed.swift in Sources */,
 				C2969EE22B278B1F00A9BB72 /* Controller.swift in Sources */,
 				C2F701662B73FA7C001390E1 /* MACVendors.swift in Sources */,
+				C2VU00012B73FA7C001390E1 /* VendorUpdater.swift in Sources */,
 				C2456FAD2B3AF976007D7AEA /* FallbackPolicyView.swift in Sources */,
 				C22F21AA2B010C970086B621 /* JSONReader.swift in Sources */,
 				C2F7017D2B74FC98001390E1 /* PopularOUIs.swift in Sources */,
@@ -1053,6 +1058,7 @@
 				C2F701772B74F771001390E1 /* PopularVendors.swift in Sources */,
 				C2ADC8532B22293B002A2905 /* ConfigTests.swift in Sources */,
 				C2F701672B73FA7C001390E1 /* MACVendors.swift in Sources */,
+				C2VU00032B73FA7C001390E1 /* VendorUpdater.swift in Sources */,
 				C23F0DD22B6977A800EE94F5 /* MACParser.swift in Sources */,
 				C288E2172AE7AF2D0098FF39 /* ListenerProtocol.swift in Sources */,
 				C245700E2B3DB5B4007D7AEA /* AdvisorTests.swift in Sources */,

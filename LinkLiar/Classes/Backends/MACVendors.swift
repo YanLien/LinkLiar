@@ -29,5 +29,13 @@ struct MACVendors {
     return name
   }
 
-  private static var path = Bundle.main.url(forResource: "oui", withExtension: "json")!.path
+  /// Returns the number of vendor entries loaded
+  static var count: Int {
+    dictionary.count
+  }
+
+  private static var path: String {
+    // Use cached vendor database if available, otherwise use bundled
+    VendorUpdater.shared.currentVendorPath
+  }
 }
