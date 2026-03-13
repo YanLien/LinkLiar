@@ -165,7 +165,7 @@ mod tests {
 
     #[test]
     fn test_parse_too_long_ssid() {
-        assert!(SSID::parse("a".repeat(33)).is_err());
+        assert!(SSID::parse(&"a".repeat(33)).is_err());
     }
 
     #[test]

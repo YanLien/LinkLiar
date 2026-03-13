@@ -9,7 +9,12 @@ struct MACVendors {
   static func load(_ callback: ( ([String: String]) -> Void)? = nil) {
     Log.debug("Loading MAC vendors asynchronously...")
     DispatchQueue.global(qos: .background).async(execute: { () -> Void in
-      guard let parsed = JSONReader(path).dictionary as? [String: String] else {
+      let vendorPath = path
+
+      // Load into Rust backend for PopularVendors/PopularOUIs
+      RustBridge.shared.loadVendorDatabase(path: vendorPath)
+
+      guard let parsed = JSONReader(vendorPath).dictionary as? [String: String] else {
         Log.debug("Could not parse MAC vendors.")
         return
       }
@@ -35,7 +40,10 @@ struct MACVendors {
   }
 
   private static var path: String {
-    // Use cached vendor database if available, otherwise use bundled
-    VendorUpdater.shared.currentVendorPath
+    let cachePath = Paths.vendorCacheFile
+    if FileManager.default.fileExists(atPath: cachePath) {
+      return cachePath
+    }
+    return Bundle.main.url(forResource: "oui", withExtension: "json")?.path ?? ""
   }
 }

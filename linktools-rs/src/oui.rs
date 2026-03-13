@@ -36,12 +36,12 @@ impl OUI {
 
     /// Get formatted string with colon separator
     pub fn to_string_colon(&self) -> String {
-        format!("{:02X}:{:02X}:{:02X}", self.bytes[0], self.bytes[1], self.bytes[2])
+        format!("{:02x}:{:02x}:{:02x}", self.bytes[0], self.bytes[1], self.bytes[2])
     }
 
     /// Get formatted string without separator (6 hex chars)
     pub fn to_string_hex(&self) -> String {
-        format!("{:02X}{:02X}{:02X}", self.bytes[0], self.bytes[1], self.bytes[2])
+        format!("{:02x}{:02x}{:02x}", self.bytes[0], self.bytes[1], self.bytes[2])
     }
 
     /// Get raw bytes

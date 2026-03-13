@@ -118,8 +118,7 @@ extension LinkDaemon: NSXPCListenerDelegate {
   func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
     Log.debug("XPC: New connection accepted")
 
-    let exportedInterface = NSXPCInterface(with: ListenerProtocol.self)
-    newConnection.exportedInterface = exportedInterface
+    newConnection.exportedInterface = Self.configuredInterface()
     newConnection.exportedObject = self
 
     newConnection.invalidationHandler = {
@@ -128,6 +127,27 @@ extension LinkDaemon: NSXPCListenerDelegate {
 
     newConnection.resume()
     return true
+  }
+
+  /// Build an NSXPCInterface with explicit allowed classes for all methods.
+  private static func configuredInterface() -> NSXPCInterface {
+    let interface = NSXPCInterface(with: ListenerProtocol.self)
+    let stringClasses = NSSet(array: [NSString.self]) as Set
+    let numberClasses = NSSet(array: [NSNumber.self]) as Set
+
+    interface.setClasses(stringClasses,
+                         for: #selector(ListenerProtocol.version(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.createConfigDirectory(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.removeConfigDirectory(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.forceRun(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    return interface
   }
 }
 

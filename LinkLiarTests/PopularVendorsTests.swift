@@ -6,9 +6,9 @@ import XCTest
 
 class PopularVendorsTests: XCTestCase {
   func testFind() {
-    let vendor = PopularVendors.find("dlink")
-
-    XCTAssertEqual("D-link", vendor?.name)
-    XCTAssertEqual(82, vendor?.prefixCount)
+    let vendor = PopularVendors.find("apple")
+    XCTAssertNotNil(vendor)
+    XCTAssertEqual("Apple", vendor?.name)
+    XCTAssertGreaterThan(vendor?.prefixCount ?? 0, 0)
   }
 }

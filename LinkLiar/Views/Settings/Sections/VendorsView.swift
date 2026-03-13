@@ -57,7 +57,7 @@ extension SettingsView {
               .frame(width: 60, height: 40)
               
               Button("Cancel") {
-                vendorUpdater.cancelUpdate()
+                vendorUpdater.isUpdating = false
               }
             } else {
               Button("Update") {
@@ -71,7 +71,7 @@ extension SettingsView {
                 Button("Reset") {
                   try? vendorUpdater.clearCache()
                   MACVendors.load()
-                  PopularVendors.reloadCache()
+                  PopularVendors.reloadDatabase()
                   refreshTrigger.toggle()
                 }
                 .buttonStyle(.bordered)
@@ -121,7 +121,7 @@ extension SettingsView {
         }
         .onReceive(NotificationCenter.default.publisher(for: .vendorDatabaseDidUpdate)) { _ in
           // Reload vendors cache and trigger view refresh
-          PopularVendors.reloadCache()
+          PopularVendors.reloadDatabase()
           refreshTrigger.toggle()
         }
       }

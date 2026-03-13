@@ -32,12 +32,9 @@ mod bssid;
 mod ssid;
 mod batch;
 
-// Swift bridge - must be included as public module
-pub mod bridge;
-
 pub use mac::MAC;
 pub use oui::OUI;
-pub use vendor::VendorDatabase;
+pub use vendor::{VendorDatabase, PopularVendorInfo};
 pub use config::Config;
 pub use bssid::BSSID;
 pub use ssid::SSID;

@@ -90,32 +90,28 @@ fi
 
 # ── Step 1: Build Rust library ────────────────────────────────
 
-info "[1/3] Building Rust library..."
+info "[1/2] Building Rust static library..."
 cd linktools-rs
 
-if [ ! -f "target/release/liblinktools.dylib" ]; then
+export MACOSX_DEPLOYMENT_TARGET=14.0
+
+if [ ! -f "target/release/liblinktools.a" ]; then
     cargo build --release
 else
-    info "Rust library up to date, skipping"
+    info "Rust static library up to date, skipping"
 fi
 
-if [ ! -f "target/release/liblinktools.dylib" ]; then
-    error "liblinktools.dylib not found after build"
+if [ ! -f "target/release/liblinktools.a" ]; then
+    error "liblinktools.a not found after build"
     exit 1
 fi
 
-info "Rust library ready ($(du -h target/release/liblinktools.dylib | cut -f1))"
+info "Rust static library ready ($(du -h target/release/liblinktools.a | cut -f1))"
 cd ..
 
-# ── Step 2: Copy dylib into app bundle ────────────────────────
+# ── Step 2: Build Xcode project ───────────────────────────────
 
-info "[2/3] Integrating Rust library..."
-cp linktools-rs/target/release/liblinktools.dylib LinkLiar/
-info "Library copied"
-
-# ── Step 3: Build Xcode project ───────────────────────────────
-
-info "[3/3] Building Xcode project..."
+info "[2/2] Building Xcode project..."
 BUILD_OUTPUT=$(mktemp)
 
 SIGN_FLAGS=()

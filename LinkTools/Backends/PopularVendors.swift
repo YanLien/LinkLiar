@@ -11,38 +11,43 @@ struct VendorInfo: Codable {
 }
 
 struct PopularVendors {
-  
-  // MARK: - Cached Vendor Data
-  
-  /// Cached vendor info from updates
-  private static var cachedVendors: [String: VendorInfo] = [:]
-  private static var cacheLoaded = false
-  
-  /// Load cached vendors from file if available
-  private static func loadCacheIfNeeded() {
-    guard !cacheLoaded else { return }
-    cacheLoaded = true
-    
-    guard FileManager.default.fileExists(atPath: Paths.popularVendorsFile),
-          let data = try? Data(contentsOf: URL(fileURLWithPath: Paths.popularVendorsFile)),
-          let vendors = try? JSONDecoder().decode([String: VendorInfo].self, from: data) else {
-      return
+
+  // MARK: - Database Loading
+
+  private static let loadLock = NSLock()
+  private static var loaded = false
+
+  /// Path to the vendor database (cached or bundled)
+  private static var vendorDatabasePath: String {
+    let cachePath = Paths.vendorCacheFile
+    if FileManager.default.fileExists(atPath: cachePath) {
+      return cachePath
     }
-    cachedVendors = vendors
+    return Bundle.main.url(forResource: "oui", withExtension: "json")?.path ?? ""
   }
-  
-  /// Reload vendor cache (called when database is updated)
-  static func reloadCache() {
-    cacheLoaded = false
-    cachedVendors = [:]
-    loadCacheIfNeeded()
+
+  /// Ensure the Rust vendor database is loaded (lazy, thread-safe)
+  static func ensureLoaded() {
+    loadLock.lock()
+    defer { loadLock.unlock() }
+    guard !loaded else { return }
+    loaded = true
+    RustBridge.shared.loadVendorDatabase(path: vendorDatabasePath)
   }
-  
+
+  /// Reload the Rust vendor database (after update or cache clear)
+  static func reloadDatabase() {
+    loadLock.lock()
+    defer { loadLock.unlock() }
+    RustBridge.shared.loadVendorDatabase(path: vendorDatabasePath)
+    loaded = true
+  }
+
   // MARK: Class Methods
 
   ///
   /// Looks up a Vendor by its ID.
-  /// If no vendor was found, or it has no valid prefixes, returns nil.
+  /// If no vendor was found, returns nil.
   ///
   /// The ID is really just a nickname as String, nothing official.
   /// It is used as a convenience shortcut in the LinkLiar config file.
@@ -53,20 +58,11 @@ struct PopularVendors {
   ///
   static func find(_ id: String) -> Vendor? {
     let id = id.filter("0123456789abcdefghijklmnopqrstuvwxyz".contains)
-    
-    // First check cached (updated) vendors
-    loadCacheIfNeeded()
-    if let cached = cachedVendors[id] {
-      return Vendor(id: cached.id, name: cached.name, prefixCount: cached.prefixCount)
-    }
-    
-    // Fall back to static database
-    guard let vendorData = PopularVendorsDatabase.dictionaryWithCounts[id] else { return nil }
+    ensureLoaded()
 
-    guard let name = vendorData.keys.first else { return nil }
-    guard let rawPrefixCount = vendorData.values.first else { return nil }
-
-    return Vendor(id: id, name: name, prefixCount: rawPrefixCount)
+    let vendors = RustBridge.shared.getPopularVendors(minCount: 1)
+    guard let info = vendors.first(where: { $0.id == id }) else { return nil }
+    return Vendor(id: info.id, name: info.name, prefixCount: info.prefixCount)
   }
 
   static func find(_ ids: [String]) -> [Vendor] {
@@ -76,97 +72,9 @@ struct PopularVendors {
   // MARK: Class Properties
 
   static var all: [Vendor] {
-    loadCacheIfNeeded()
-    
-    // If we have cached vendors, use them
-    if !cachedVendors.isEmpty {
-      return cachedVendors.values
-        .map { Vendor(id: $0.id, name: $0.name, prefixCount: $0.prefixCount) }
-        .sorted()
-    }
-    
-    // Fall back to static database
-    return PopularVendorsDatabase.dictionaryWithCounts.keys.reversed().compactMap {
-      find($0)
-    }.sorted()
-  }
-}
-
-// MARK: - Rust Vendor Backend
-
-/// Rust-based vendor lookup using the linktools Rust library.
-enum RustVendors {
-
-  // MARK: - Type Aliases
-
-  typealias RustVendorInfo = (id: String, name: String, ouiCount: Int)
-
-  // MARK: - Popular Vendors
-
-  /// Returns a list of all popular vendors with their OUI counts.
-  static var allPopular: [RustVendorInfo] {
-    [
-      ("apple", "Apple", 1133),
-      ("cisco", "Cisco", 1084),
-      ("huawei", "Huawei", 1037),
-      ("samsung", "Samsung", 755),
-      ("intel", "Intel", 546),
-      ("zte", "ZTE", 346),
-      ("texas", "Texas Instruments", 306),
-      ("nokia", "Nokia", 279),
-      ("xiaomi", "Xiaomi", 163),
-      ("dell", "Dell", 162),
-      ("tplink", "TP-Link", 162),
-      ("hp", "HP", 150),
-      ("vivo", "Vivo", 120),
-      ("microsoft", "Microsoft", 92),
-      ("new", "New H3c Technologies", 92),
-      ("nintendo", "Nintendo", 87),
-      ("vantiva", "Vantiva Usa", 87),
-      ("asustek", "Asustek", 85),
-      ("dlink", "D-link", 82),
-      ("motorola", "Motorola", 82),
-      ("sony", "Sony", 82),
-      ("aruba", "Aruba A Hewlett Packard Enterprise Company", 79),
-      ("lg", "LG", 77),
-      ("netgear", "Netgear", 73),
-      ("google", "Google", 72),
-      ("sichuan", "Sichuan Tianyi Comheart Telecom", 70),
-      ("silicon", "Silicon Laboratories", 66),
-      ("murata", "Murata Manufacturing", 63),
-      ("extreme", "Extreme Networks", 62),
-      ("hangzhou", "Hangzhou Hikvision Digital Technology", 62),
-      ("azurewave", "Azurewave Technology", 58),
-      ("china", "China Mobile Group Device", 56),
-      ("eero", "Eero", 56),
-      ("hewlett", "Hewlett Packard Enterprise", 52),
-      ("zyxel", "Zyxel Communications", 51),
-      ("3com", "3com", 31),
-      ("ericsson", "Ericsson", 29),
-      ("htc", "HTC", 29),
-      ("ibm", "Ibm", 28),
-    ]
-  }
-
-  /// Find a vendor by ID.
-  static func find(_ id: String) -> Vendor? {
-    let id = id.filter("0123456789abcdefghijklmnopqrstuvwxyz".contains)
-
-    // First check if it's in our popular list
-    if let info = allPopular.first(where: { $0.id == id }) {
-      return Vendor(id: info.id, name: info.name, prefixCount: info.ouiCount)
-    }
-
-    return nil
-  }
-
-  /// Find multiple vendors by IDs.
-  static func find(_ ids: [String]) -> [Vendor] {
-    ids.compactMap { find($0) }.sorted()
-  }
-
-  /// Get all popular vendors.
-  static var all: [Vendor] {
-    allPopular.map { Vendor(id: $0.id, name: $0.name, prefixCount: $0.ouiCount) }.sorted()
+    ensureLoaded()
+    return RustBridge.shared.getPopularVendors(minCount: 50)
+      .map { Vendor(id: $0.id, name: $0.name, prefixCount: $0.prefixCount) }
+      .sorted()
   }
 }

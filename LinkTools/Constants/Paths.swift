@@ -41,7 +41,7 @@ class Paths {
   static let vendorCacheFile = configDirectory.appendPath("oui.json")
   static let vendorCacheFileURL = URL(fileURLWithPath: vendorCacheFile)
   static let vendorMetadataFile = configDirectory.appendPath("vendor_metadata.json")
-  static let popularVendorsFile = configDirectory.appendPath("popular_vendors.json")
+
 
   // Private Class Properties
 

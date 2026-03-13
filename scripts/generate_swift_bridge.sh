@@ -25,7 +25,7 @@ swift-bridge-cli parse-bridges \
     --output "$SWIFT_OUTPUT"
 
 # Step 3: Copy dylib to LinkLiar
-echo "Copying dylib..."
+echo "Copying dylib..." 
 cp "$RUST_DIR/target/release/liblinktools.dylib" "$PROJECT_DIR/LinkLiar/"
 
 echo "=== Build Complete ==="

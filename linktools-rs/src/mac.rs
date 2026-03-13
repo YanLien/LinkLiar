@@ -55,7 +55,7 @@ impl MAC {
     /// Get formatted address with colon separator
     pub fn to_string_colon(&self) -> String {
         format!(
-            "{:02X}:{:02X}:{:02X}:{:02X}:{:02X}:{:02X}",
+            "{:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}",
             self.bytes[0], self.bytes[1], self.bytes[2],
             self.bytes[3], self.bytes[4], self.bytes[5]
         )
@@ -64,7 +64,7 @@ impl MAC {
     /// Get formatted address with hyphen separator
     pub fn to_string_hyphen(&self) -> String {
         format!(
-            "{:02X}-{:02X}-{:02X}-{:02X}-{:02X}-{:02X}",
+            "{:02x}-{:02x}-{:02x}-{:02x}-{:02x}-{:02x}",
             self.bytes[0], self.bytes[1], self.bytes[2],
             self.bytes[3], self.bytes[4], self.bytes[5]
         )
@@ -121,7 +121,7 @@ impl MAC {
     /// Anonymize MAC address (show only prefix)
     pub fn anonymize(&self) -> String {
         format!(
-            "{:02X}:{:02X}:{:02X}:XX:XX:XX",
+            "{:02x}:{:02x}:{:02x}:XX:XX:XX",
             self.bytes[0], self.bytes[1], self.bytes[2]
         )
     }
