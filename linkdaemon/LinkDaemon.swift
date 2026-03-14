@@ -173,7 +173,15 @@ extension LinkDaemon: ListenerProtocol {
 
   func forceRun(reply: @escaping (Bool) -> Void) {
     Log.debug("XPC: forceRun called - triggering synchronization")
-    forceRunSynchronization()
+
+    // Trigger synchronization asynchronously
+    DispatchQueue.global(qos: .userInitiated).async {
+      Log.debug("XPC: Starting forceRunSynchronization")
+      self.forceRunSynchronization()
+      Log.debug("XPC: forceRunSynchronization finished")
+    }
+
+    // Reply immediately - we've initiated the sync
     reply(true)
   }
 }

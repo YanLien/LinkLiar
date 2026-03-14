@@ -48,16 +48,8 @@ extension Config {
         state.configDictionary = newDictionary
       }
 
-      // This is one of the rare occasions where the background daemon changes a MAC address
-      // while the GUI is open and showing that address. The GUI has no way of knowing that
-      // the address was changed (it doesn't trigger a network condition change or config file change).
-      // So we resort to polling, to give the user visual feedback about the successful change.
-      // Less than a second should be enough to have detected the change.
-      for millisecond in [100, 300, 500, 700] {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(millisecond)) {
-          NotificationCenter.default.post(name: .manualTrigger, object: nil)
-        }
-      }
+      // Note: Polling has been moved to InterfaceView to have better control over timing
+      // The daemon's FileObserver will also detect the config change and trigger sync
     }
 
     // MARK: Vendors

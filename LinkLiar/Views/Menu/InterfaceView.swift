@@ -68,33 +68,38 @@ struct InterfaceView: View {
           && (state.daemonRegistration == .enabled || state.daemonRegistration == .unknown) {
         Button("Randomize now") {
           Log.debug("Force randomization...")
-          Config.Writer(state).resetExceptionAddress(interface: interface)
+          Log.debug("Current softMAC before reset: \(interface.softMAC?.address ?? "nil")")
 
-          // Trigger daemon to run immediately via XPC
+          // Step 1: Update config to mark current MAC as exception
+          Config.Writer(state).resetExceptionAddress(interface: interface)
+          Log.debug("Config file updated, current MAC marked as exception")
+
+          // Step 2: Trigger daemon to run immediately via XPC
           var hasCompleted = false
           Radio.forceRun(state: state) {
             guard !hasCompleted else { return }
             hasCompleted = true
-            Log.debug("Daemon forceRun completed, triggering UI refresh")
-            // After daemon runs, trigger UI refresh multiple times
-            for delay in [0.2, 0.5, 0.8, 1.2] {
-              DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                Log.debug("Triggering UI refresh")
-                NotificationCenter.default.post(name: .manualTrigger, object: nil)
-              }
+            Log.debug("Daemon XPC call completed")
+
+            // Step 3: Wait for daemon to actually change the MAC address
+            // Ifconfig.Setter sleeps for 1 second, plus FileObserver processing time
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+              Log.debug("Triggering UI refresh after daemon completed")
+
+              // Re-query the specific interface that was randomized
+              interface.querySoftMAC()
+
+              // Then trigger a full UI refresh
+              NotificationCenter.default.post(name: .manualTrigger, object: nil)
             }
           }
-          
-          // Fallback: If XPC doesn't respond within 3 seconds, refresh anyway
-          DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+
+          // Fallback: If XPC doesn't respond within 5 seconds, refresh anyway
+          DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             guard !hasCompleted else { return }
             hasCompleted = true
             Log.debug("XPC timeout, triggering fallback UI refresh")
-            for delay in [0.0, 0.3, 0.6] {
-              DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                NotificationCenter.default.post(name: .manualTrigger, object: nil)
-              }
-            }
+            NotificationCenter.default.post(name: .manualTrigger, object: nil)
           }
         }
       }
