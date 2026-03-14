@@ -36,6 +36,13 @@ class Paths {
   static let airportCLI = "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
   static let ifconfigCLI = "/sbin/ifconfig"
 
+  // Vendor database URLs and paths
+  static let vendorDataURL = "https://mac2vendor.com/download/vendorMacs.prop"
+  static let vendorCacheFile = configDirectory.appendPath("oui.json")
+  static let vendorCacheFileURL = URL(fileURLWithPath: vendorCacheFile)
+  static let vendorMetadataFile = configDirectory.appendPath("vendor_metadata.json")
+
+
   // Private Class Properties
 
   private static let defaultConfigFile = configDirectory.appendPath("config.json")

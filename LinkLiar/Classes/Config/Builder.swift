@@ -215,7 +215,7 @@ extension Config {
 
     func addAllVendors() -> [String: Any] {
       var dictionary = configDictionary
-      dictionary[Config.Key.vendors.rawValue] = PopularVendorsDatabase.dictionaryWithCounts.keys.sorted()
+      dictionary[Config.Key.vendors.rawValue] = PopularVendors.all.map { $0.id }.sorted()
       return dictionary
     }
 

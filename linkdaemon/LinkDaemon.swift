@@ -3,26 +3,29 @@
 
 import Cocoa
 
-class LinkDaemon {
+class LinkDaemon: NSObject {
   // MARK: Class Methods
-
-  init() {
+  override init() {
+    super.init()
     Log.debug("Daemon \(version.formatted) says hello")
     subscribe()
+
+    // Start XPC listener for receiving commands from GUI
+    startXPCListener()
+
     RunLoop.main.run()
   }
 
   // MARK: Private Instance Properties
-
   private var configFileObserver: FileObserver?
   private var networkObserver: NetworkObserver?
   private var intervalTimer: IntervalTimer?
+  private var xpcListener: NSXPCListener?
 
   /// Holds the raw configuration file as Dictionary.
   var configDictionary: [String: Any] = [:]
 
   // MARK: Private Instance Methods
-
   private func subscribe() {
     ConfigDirectory.ensure()
 
@@ -43,6 +46,14 @@ class LinkDaemon {
                                                       name: NSWorkspace.willSleepNotification, object: nil)
     NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(didWake(_:)),
                                                       name: NSWorkspace.didWakeNotification, object: nil)
+  }
+
+  private func startXPCListener() {
+    Log.debug("Starting XPC listener for daemon commands")
+    let listener = NSXPCListener(machServiceName: Identifiers.daemon.rawValue)
+    listener.delegate = self
+    listener.resume()
+    self.xpcListener = listener
   }
 
   private func intervalElapsed() {
@@ -79,7 +90,6 @@ class LinkDaemon {
   }
 
   // MARK: Instance Properties
-
   lazy var version: Version = {
     if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
       return Version(version)
@@ -87,9 +97,91 @@ class LinkDaemon {
     return Version("?.?.?")
   }()
 
-  // MARK: Private Instance Properties
+  // MARK: Public Instance Methods
 
+  /// Force the daemon to run a synchronization immediately
+  /// Called from XPC when GUI requests a forced run
+  func forceRunSynchronization() {
+    Log.debug("Force run synchronization requested via XPC")
+    executor.run()
+  }
+
+  // MARK: Private Instance Properties
   lazy var executor: Executor = {
     Executor()
   }()
+}
+
+// MARK: - NSXPCListenerDelegate
+
+extension LinkDaemon: NSXPCListenerDelegate {
+  func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
+    Log.debug("XPC: New connection accepted")
+
+    newConnection.exportedInterface = Self.configuredInterface()
+    newConnection.exportedObject = self
+
+    newConnection.invalidationHandler = {
+      Log.debug("XPC: Connection invalidated")
+    }
+
+    newConnection.resume()
+    return true
+  }
+
+  /// Build an NSXPCInterface with explicit allowed classes for all methods.
+  private static func configuredInterface() -> NSXPCInterface {
+    let interface = NSXPCInterface(with: ListenerProtocol.self)
+    let stringClasses = NSSet(array: [NSString.self]) as Set
+    let numberClasses = NSSet(array: [NSNumber.self]) as Set
+
+    interface.setClasses(stringClasses,
+                         for: #selector(ListenerProtocol.version(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.createConfigDirectory(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.removeConfigDirectory(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.forceRun(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    return interface
+  }
+}
+
+// MARK: - ListenerProtocol Implementation
+
+extension LinkDaemon: ListenerProtocol {
+  func version(reply: @escaping (String) -> Void) {
+    let versionString = version.formatted
+    Log.debug("XPC: Version requested, returning \(versionString)")
+    reply(versionString)
+  }
+
+  func createConfigDirectory(reply: @escaping (Bool) -> Void) {
+    Log.debug("XPC: createConfigDirectory called")
+    ConfigDirectory.ensure()
+    reply(true)
+  }
+
+  func removeConfigDirectory(reply: @escaping (Bool) -> Void) {
+    Log.debug("XPC: removeConfigDirectory called")
+    reply(true)
+  }
+
+  func forceRun(reply: @escaping (Bool) -> Void) {
+    Log.debug("XPC: forceRun called - triggering synchronization")
+
+    // Trigger synchronization asynchronously
+    DispatchQueue.global(qos: .userInitiated).async {
+      Log.debug("XPC: Starting forceRunSynchronization")
+      self.forceRunSynchronization()
+      Log.debug("XPC: forceRunSynchronization finished")
+    }
+
+    // Reply immediately - we've initiated the sync
+    reply(true)
+  }
 }

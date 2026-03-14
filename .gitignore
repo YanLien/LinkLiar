@@ -1,4 +1,9 @@
-build
+# 构建产物
+build/
+*.app
+*.dmg
+
+# Xcode
 *.xcodeproj/*.pbxuser
 *.xcodeproj/*.perspectivev3
 *.xcodeproj/xcuserdata
@@ -18,3 +23,11 @@ build
 *.cer
 *.p12
 LinkLiarHelp/.jekyll-cache
+LinkLiarHelp/_site
+docs/
+
+# Rust
+linktools-rs/target/
+*.dylib
+
+.claude

@@ -8,6 +8,8 @@ extension Config {
 
     var dictionary: [String: Any]
 
+    // MARK: Public Instance Properties
+
     // Proxy them, so that the state is observed.
     var popular: [OUI] {
       PopularOUIs.all
@@ -18,7 +20,9 @@ extension Config {
         return PopularOUIs.find(Config.Key.apple.rawValue)
       }
 
-      let vendors = Set(chosenIDs).flatMap { PopularOUIs.find($0) }.compactMap { $0 }
+      let vendors = Set(chosenIDs).flatMap { vendorId -> [OUI] in
+        PopularOUIs.find(vendorId)
+      }
 
       return Array(vendors).sorted()
     }

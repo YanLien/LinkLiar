@@ -4,7 +4,6 @@
 import XCTest
 
 final class LinkLiarUITestsLaunchTests: XCTestCase {
-  
   override class var runsForEachTargetApplicationUIConfiguration: Bool {
     true
   }

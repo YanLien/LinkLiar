@@ -34,7 +34,7 @@ struct InterfaceView: View {
           }).buttonStyle(.plain)
         }
 
-        Text(MACVendors.name(interface.softOUI))
+        Text(interface.softOUI.map { MACVendors.name($0) } ?? "No Vendor")
           .font(.system(.footnote, design: .monospaced))
           .opacity(0.5)
 
@@ -63,10 +63,44 @@ struct InterfaceView: View {
     .contextMenu {
       Button("Copy MAC address") { copy(interface.softMAC?.address ?? "??:??:??:??:??:??") }
 
-      if state.config.arbiter(interface.hardMAC).action == .random && state.daemonRegistration == .enabled {
+      // Show randomize button if action is random and daemon is enabled or status is unknown
+      if state.config.arbiter(interface.hardMAC).action == .random 
+          && (state.daemonRegistration == .enabled || state.daemonRegistration == .unknown) {
         Button("Randomize now") {
           Log.debug("Force randomization...")
+          Log.debug("Current softMAC before reset: \(interface.softMAC?.address ?? "nil")")
+
+          // Step 1: Update config to mark current MAC as exception
           Config.Writer(state).resetExceptionAddress(interface: interface)
+          Log.debug("Config file updated, current MAC marked as exception")
+
+          // Step 2: Trigger daemon to run immediately via XPC
+          var hasCompleted = false
+          Radio.forceRun(state: state) {
+            guard !hasCompleted else { return }
+            hasCompleted = true
+            Log.debug("Daemon XPC call completed")
+
+            // Step 3: Wait for daemon to actually change the MAC address
+            // Ifconfig.Setter sleeps for 1 second, plus FileObserver processing time
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+              Log.debug("Triggering UI refresh after daemon completed")
+
+              // Re-query the specific interface that was randomized
+              interface.querySoftMAC()
+
+              // Then trigger a full UI refresh
+              NotificationCenter.default.post(name: .manualTrigger, object: nil)
+            }
+          }
+
+          // Fallback: If XPC doesn't respond within 5 seconds, refresh anyway
+          DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            guard !hasCompleted else { return }
+            hasCompleted = true
+            Log.debug("XPC timeout, triggering fallback UI refresh")
+            NotificationCenter.default.post(name: .manualTrigger, object: nil)
+          }
         }
       }
     }

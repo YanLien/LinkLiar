@@ -6,7 +6,6 @@ import Foundation
 // See https://gist.github.com/DivineDominion/56e56f3db43216d9eaab300d3b9f049a
 public class FileObserver {
   // MARK: Class Methods
-
   init(path: String, callback: @escaping () -> Void) {
     self.lastEventId = sinceWhen
     self.pathsToWatch = [path]
@@ -15,7 +14,6 @@ public class FileObserver {
   }
 
   // MARK: Instance Methods
-
   public func start() {
     guard started == false else { return }
 
@@ -48,7 +46,6 @@ public class FileObserver {
   let queue = DispatchQueue(label: "\(Identifiers.gui).fileObserverQueue", qos: .utility)
 
   // MARK: - Private Properties
-
   public private(set) var sinceWhen = FSEventStreamEventId(kFSEventStreamEventIdSinceNow)
 
   typealias FSEventStreamCallback = @convention(c) (ConstFSEventStreamRef,

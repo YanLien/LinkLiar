@@ -11,6 +11,8 @@ protocol ListenerProtocol {
   func createConfigDirectory(reply: @escaping (Bool) -> Void)
   func removeConfigDirectory(reply: @escaping (Bool) -> Void)
 
+  func forceRun(reply: @escaping (Bool) -> Void)
+
 //  func install(pristineDaemonExecutablePath: String, reply: @escaping (Bool) -> Void)
 //  func uninstall(reply: @escaping (Bool) -> Void)
 

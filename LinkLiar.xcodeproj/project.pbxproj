@@ -12,7 +12,6 @@
 		C20B96C02B76ACF900F1E2E8 /* PopularVendorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20B96BF2B76ACF900F1E2E8 /* PopularVendorsTests.swift */; };
 		C225BDAA2B1FBA3100FFD119 /* ConfigDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225BDA92B1FBA3100FFD119 /* ConfigDirectory.swift */; };
 		C225BDAD2B1FBA3A00FFD119 /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225BDAB2B1FBA3A00FFD119 /* Executor.swift */; };
-		C225BDB02B1FBA4000FFD119 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C225BDAF2B1FBA4000FFD119 /* Listener.swift */; };
 		C22F21AA2B010C970086B621 /* JSONReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22F21A92B010C970086B621 /* JSONReader.swift */; };
 		C22F21AB2B010C970086B621 /* JSONReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22F21A92B010C970086B621 /* JSONReader.swift */; };
 		C23F0DC72B6692B100EE94F5 /* MACTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DC62B6692B100EE94F5 /* MACTest.swift */; };
@@ -25,10 +24,6 @@
 		C23F0DD12B6977A800EE94F5 /* MACParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DCF2B6977A800EE94F5 /* MACParser.swift */; };
 		C23F0DD22B6977A800EE94F5 /* MACParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DCF2B6977A800EE94F5 /* MACParser.swift */; };
 		C23F0DD42B6979D000EE94F5 /* MACParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DD32B6979D000EE94F5 /* MACParserTest.swift */; };
-		C23F0DD62B697FE300EE94F5 /* MACAnonymizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DD52B697FE300EE94F5 /* MACAnonymizer.swift */; };
-		C23F0DD72B697FE300EE94F5 /* MACAnonymizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DD52B697FE300EE94F5 /* MACAnonymizer.swift */; };
-		C23F0DD82B697FE300EE94F5 /* MACAnonymizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DD52B697FE300EE94F5 /* MACAnonymizer.swift */; };
-		C23F0DDA2B69801900EE94F5 /* MACAnonymizerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23F0DD92B69801900EE94F5 /* MACAnonymizerTest.swift */; };
 		C2456FAB2B3AF888007D7AEA /* TroubleshootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2456FAA2B3AF888007D7AEA /* TroubleshootView.swift */; };
 		C2456FAD2B3AF976007D7AEA /* FallbackPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2456FAC2B3AF976007D7AEA /* FallbackPolicyView.swift */; };
 		C2456FAF2B3AF99A007D7AEA /* InterfacePolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2456FAE2B3AF99A007D7AEA /* InterfacePolicyView.swift */; };
@@ -181,9 +176,6 @@
 		C2F7015D2B6C380C001390E1 /* BSSID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F7015A2B6C380C001390E1 /* BSSID.swift */; };
 		C2F701662B73FA7C001390E1 /* MACVendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701632B73FA7C001390E1 /* MACVendors.swift */; };
 		C2F701672B73FA7C001390E1 /* MACVendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701632B73FA7C001390E1 /* MACVendors.swift */; };
-		C2F701712B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */; };
-		C2F701722B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */; };
-		C2F701732B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */; };
 		C2F701752B74F771001390E1 /* PopularVendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701742B74F771001390E1 /* PopularVendors.swift */; };
 		C2F701762B74F771001390E1 /* PopularVendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701742B74F771001390E1 /* PopularVendors.swift */; };
 		C2F701772B74F771001390E1 /* PopularVendors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F701742B74F771001390E1 /* PopularVendors.swift */; };
@@ -193,6 +185,14 @@
 		C2F7017D2B74FC98001390E1 /* PopularOUIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F7017C2B74FC98001390E1 /* PopularOUIs.swift */; };
 		C2F7017E2B74FC98001390E1 /* PopularOUIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F7017C2B74FC98001390E1 /* PopularOUIs.swift */; };
 		C2F7017F2B74FC98001390E1 /* PopularOUIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F7017C2B74FC98001390E1 /* PopularOUIs.swift */; };
+		C2VU00012B73FA7C001390E1 /* VendorUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */; };
+		C2VU00032B73FA7C001390E1 /* VendorUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */; };
+		D1000001200000A0001A0001 /* liblinktools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D10000012C000003001A0001 /* liblinktools.a */; };
+		D10000012C000004001A0001 /* RustBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000012C000001001A0001 /* RustBridge.swift */; };
+		D10000012C000005001A0001 /* RustBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000012C000001001A0001 /* RustBridge.swift */; };
+		D10000012C000006001A0001 /* RustBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000012C000001001A0001 /* RustBridge.swift */; };
+		D10000012C000007001A0001 /* liblinktools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D10000012C000003001A0001 /* liblinktools.a */; };
+		D10000012C000008001A0001 /* liblinktools.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D10000012C000003001A0001 /* liblinktools.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -249,15 +249,12 @@
 		C20B96BF2B76ACF900F1E2E8 /* PopularVendorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopularVendorsTests.swift; sourceTree = "<group>"; };
 		C225BDA92B1FBA3100FFD119 /* ConfigDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigDirectory.swift; path = Classes/ConfigDirectory.swift; sourceTree = "<group>"; };
 		C225BDAB2B1FBA3A00FFD119 /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Executor.swift; path = Classes/Executor.swift; sourceTree = "<group>"; };
-		C225BDAF2B1FBA4000FFD119 /* Listener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Listener.swift; path = Classes/Listener.swift; sourceTree = "<group>"; };
 		C22F21A92B010C970086B621 /* JSONReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONReader.swift; sourceTree = "<group>"; };
 		C23F0DC62B6692B100EE94F5 /* MACTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACTest.swift; sourceTree = "<group>"; };
 		C23F0DC92B66B87300EE94F5 /* BSD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BSD.swift; path = Models/BSD.swift; sourceTree = "<group>"; };
 		C23F0DCD2B66BD6900EE94F5 /* InterfaceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceTest.swift; sourceTree = "<group>"; };
 		C23F0DCF2B6977A800EE94F5 /* MACParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MACParser.swift; path = Models/MACParser.swift; sourceTree = "<group>"; };
 		C23F0DD32B6979D000EE94F5 /* MACParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACParserTest.swift; sourceTree = "<group>"; };
-		C23F0DD52B697FE300EE94F5 /* MACAnonymizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MACAnonymizer.swift; path = Models/MACAnonymizer.swift; sourceTree = "<group>"; };
-		C23F0DD92B69801900EE94F5 /* MACAnonymizerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACAnonymizerTest.swift; sourceTree = "<group>"; };
 		C2456FAA2B3AF888007D7AEA /* TroubleshootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TroubleshootView.swift; path = Sections/TroubleshootView.swift; sourceTree = "<group>"; };
 		C2456FAC2B3AF976007D7AEA /* FallbackPolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FallbackPolicyView.swift; path = Sections/FallbackPolicyView.swift; sourceTree = "<group>"; };
 		C2456FAE2B3AF99A007D7AEA /* InterfacePolicyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterfacePolicyView.swift; path = Sections/InterfacePolicyView.swift; sourceTree = "<group>"; };
@@ -353,10 +350,13 @@
 		C2F701572B6C2ECE001390E1 /* BSDTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSDTest.swift; sourceTree = "<group>"; };
 		C2F7015A2B6C380C001390E1 /* BSSID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BSSID.swift; path = Models/BSSID.swift; sourceTree = "<group>"; };
 		C2F701632B73FA7C001390E1 /* MACVendors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MACVendors.swift; path = Backends/MACVendors.swift; sourceTree = "<group>"; };
-		C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopularVendorsDatabase.swift; path = Backends/PopularVendorsDatabase.swift; sourceTree = "<group>"; };
 		C2F701742B74F771001390E1 /* PopularVendors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopularVendors.swift; path = Backends/PopularVendors.swift; sourceTree = "<group>"; };
 		C2F701782B74FB63001390E1 /* OUIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OUIs.swift; path = Config/OUIs.swift; sourceTree = "<group>"; };
 		C2F7017C2B74FC98001390E1 /* PopularOUIs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopularOUIs.swift; path = Backends/PopularOUIs.swift; sourceTree = "<group>"; };
+		C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VendorUpdater.swift; path = Backends/VendorUpdater.swift; sourceTree = "<group>"; };
+		D10000012C000001001A0001 /* RustBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RustBridge.swift; path = Backends/RustBridge.swift; sourceTree = "<group>"; };
+		D10000012C000002001A0001 /* LinkLiar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "LinkLiar-Bridging-Header.h"; path = "LinkLiar/LinkLiar-Bridging-Header.h"; sourceTree = "<group>"; };
+		D10000012C000003001A0001 /* liblinktools.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblinktools.a; path = "linktools-rs/target/release/liblinktools.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,6 +364,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1000001200000A0001A0001 /* liblinktools.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +379,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D10000012C000008001A0001 /* liblinktools.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D10000012C000009001A0001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D10000012C000007001A0001 /* liblinktools.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +411,6 @@
 				C2F3DA2C2B36C71A00977572 /* Synchronization.swift */,
 				C245703F2B49DC9B007D7AEA /* Advisor.swift */,
 				C245701D2B3E032C007D7AEA /* WifiState.swift */,
-				C225BDAF2B1FBA4000FFD119 /* Listener.swift */,
 				C225BDA92B1FBA3100FFD119 /* ConfigDirectory.swift */,
 				C2D819512B2A2FDC00991D38 /* Ifconfig.Setter.swift */,
 			);
@@ -439,7 +448,6 @@
 				C23F0DC62B6692B100EE94F5 /* MACTest.swift */,
 				C23F0DCD2B66BD6900EE94F5 /* InterfaceTest.swift */,
 				C23F0DD32B6979D000EE94F5 /* MACParserTest.swift */,
-				C23F0DD92B69801900EE94F5 /* MACAnonymizerTest.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -477,12 +485,12 @@
 		C2456FC12B3B16C9007D7AEA /* Backends */ = {
 			isa = PBXGroup;
 			children = (
+				D10000012C000001001A0001 /* RustBridge.swift */,
 				C24570392B49899F007D7AEA /* LocationManager.swift */,
 				C2456FC22B3B16D4007D7AEA /* Ifconfig.Reader.swift */,
 				C2456FC42B3B16D4007D7AEA /* Interfaces.swift */,
 				C2F701742B74F771001390E1 /* PopularVendors.swift */,
 				C2F7017C2B74FC98001390E1 /* PopularOUIs.swift */,
-				C2F701702B7405CA001390E1 /* PopularVendorsDatabase.swift */,
 			);
 			name = Backends;
 			sourceTree = "<group>";
@@ -500,7 +508,6 @@
 				C2456FD02B3B16F7007D7AEA /* Vendor.swift */,
 				C2456FD12B3B16F7007D7AEA /* Version.swift */,
 				C23F0DCF2B6977A800EE94F5 /* MACParser.swift */,
-				C23F0DD52B697FE300EE94F5 /* MACAnonymizer.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -549,6 +556,7 @@
 		C266991C2AE55EFC00592008 = {
 			isa = PBXGroup;
 			children = (
+				D10000012C000002001A0001 /* LinkLiar-Bridging-Header.h */,
 				C26699272AE55EFC00592008 /* LinkLiar */,
 				C26699692AE57A3100592008 /* linkdaemon */,
 				C29EAF752AE59EE7003578B9 /* LinkTools */,
@@ -722,6 +730,7 @@
 		C29EAF9A2AE5B07C003578B9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D10000012C000003001A0001 /* liblinktools.a */,
 				C29EAF9B2AE5B07C003578B9 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -756,6 +765,7 @@
 			isa = PBXGroup;
 			children = (
 				C2F701632B73FA7C001390E1 /* MACVendors.swift */,
+				C2VU00022B73FA7C001390E1 /* VendorUpdater.swift */,
 			);
 			name = Backends;
 			sourceTree = "<group>";
@@ -769,6 +779,7 @@
 			buildPhases = (
 				C2ADC8AF2B23A954002A2905 /* Run Linter */,
 				C26699212AE55EFC00592008 /* Sources */,
+				D10000012C000009001A0001 /* Frameworks */,
 				C26699232AE55EFC00592008 /* Resources */,
 				C29EAF932AE5A82E003578B9 /* Copy Agent Property Lists */,
 				C29EAFA92AE5B2C1003578B9 /* Embed Executables */,
@@ -843,7 +854,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1510;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					C26699242AE55EFC00592008 = {
 						CreatedOnToolsVersion = 15.0;
@@ -936,12 +947,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C23F0DD62B697FE300EE94F5 /* MACAnonymizer.swift in Sources */,
 				C23F0DC82B66AE3800EE94F5 /* Command.swift in Sources */,
 				C2969F182B278E2A00A9BB72 /* DiagnoseInterfaceView.swift in Sources */,
 				C2969F152B278E2A00A9BB72 /* SettingsDetailView.swift in Sources */,
 				C2969F1D2B278E2A00A9BB72 /* ApproveDaemonView.swift in Sources */,
-				C2F701712B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */,
 				C2F3DA222B35C8B900977572 /* Policy.swift in Sources */,
 				C2456FE22B3B1708007D7AEA /* Identifiers.swift in Sources */,
 				C2969EDF2B278B1F00A9BB72 /* Builder.swift in Sources */,
@@ -982,6 +991,7 @@
 				C20B96BC2B767D0000F1E2E8 /* CGKeyCode+optionKeyPressed.swift in Sources */,
 				C2969EE22B278B1F00A9BB72 /* Controller.swift in Sources */,
 				C2F701662B73FA7C001390E1 /* MACVendors.swift in Sources */,
+				C2VU00012B73FA7C001390E1 /* VendorUpdater.swift in Sources */,
 				C2456FAD2B3AF976007D7AEA /* FallbackPolicyView.swift in Sources */,
 				C22F21AA2B010C970086B621 /* JSONReader.swift in Sources */,
 				C2F7017D2B74FC98001390E1 /* PopularOUIs.swift in Sources */,
@@ -996,6 +1006,7 @@
 				C280C04B2B58511800C653F0 /* CFArray+Sequence.swift in Sources */,
 				C2456FBC2B3B025D007D7AEA /* Vendors.swift in Sources */,
 				C23F0DD02B6977A800EE94F5 /* MACParser.swift in Sources */,
+				D10000012C000004001A0001 /* RustBridge.swift in Sources */,
 				C2969EDE2B278B1F00A9BB72 /* LinkState.swift in Sources */,
 				C24570292B41FC3E007D7AEA /* Urls.swift in Sources */,
 				C2AA40A62B599B26007CD6CB /* AccessPoint.swift in Sources */,
@@ -1027,7 +1038,6 @@
 				C278B0B92B7BF750001DFA58 /* MACVendorsTest.swift in Sources */,
 				C24570342B486A0D007D7AEA /* JSONWriter.swift in Sources */,
 				C2F7017F2B74FC98001390E1 /* PopularOUIs.swift in Sources */,
-				C2F701732B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */,
 				C23F0DCE2B66BD6900EE94F5 /* InterfaceTest.swift in Sources */,
 				C24570332B486561007D7AEA /* PathsTests.swift in Sources */,
 				C2AA40A82B599B26007CD6CB /* AccessPoint.swift in Sources */,
@@ -1054,7 +1064,6 @@
 				C280C0452B5836E700C653F0 /* Command.swift in Sources */,
 				C2F701582B6C2ECF001390E1 /* BSDTest.swift in Sources */,
 				C24570102B3DB69E007D7AEA /* Reader.swift in Sources */,
-				C23F0DDA2B69801900EE94F5 /* MACAnonymizerTest.swift in Sources */,
 				C245700F2B3DB696007D7AEA /* Interface.swift in Sources */,
 				C245700C2B3DB59D007D7AEA /* Synchronization.swift in Sources */,
 				C245700B2B3DB516007D7AEA /* Identifiers.swift in Sources */,
@@ -1066,8 +1075,9 @@
 				C2F701772B74F771001390E1 /* PopularVendors.swift in Sources */,
 				C2ADC8532B22293B002A2905 /* ConfigTests.swift in Sources */,
 				C2F701672B73FA7C001390E1 /* MACVendors.swift in Sources */,
+				C2VU00032B73FA7C001390E1 /* VendorUpdater.swift in Sources */,
 				C23F0DD22B6977A800EE94F5 /* MACParser.swift in Sources */,
-				C23F0DD82B697FE300EE94F5 /* MACAnonymizer.swift in Sources */,
+				D10000012C000006001A0001 /* RustBridge.swift in Sources */,
 				C288E2172AE7AF2D0098FF39 /* ListenerProtocol.swift in Sources */,
 				C245700E2B3DB5B4007D7AEA /* AdvisorTests.swift in Sources */,
 				C280C0472B584D6900C653F0 /* AirportConnectionTests.swift in Sources */,
@@ -1102,7 +1112,6 @@
 				C2456FCB2B3B16D4007D7AEA /* Interfaces.swift in Sources */,
 				C2F7015C2B6C380C001390E1 /* BSSID.swift in Sources */,
 				C2456FD92B3B16F7007D7AEA /* Version.swift in Sources */,
-				C23F0DD72B697FE300EE94F5 /* MACAnonymizer.swift in Sources */,
 				C280C04F2B58511800C653F0 /* Collection+safeSubscript.swift in Sources */,
 				C2456FF12B3B1809007D7AEA /* TimeObserver.swift in Sources */,
 				C280C04C2B58511800C653F0 /* CFArray+Sequence.swift in Sources */,
@@ -1121,12 +1130,11 @@
 				C28E032B2B0BD5EB0074EC94 /* LinkDaemon.swift in Sources */,
 				C2F3DA212B35C8B900977572 /* Reader.swift in Sources */,
 				C23F0DD12B6977A800EE94F5 /* MACParser.swift in Sources */,
+				D10000012C000005001A0001 /* RustBridge.swift in Sources */,
 				C29EAF972AE5ADCA003578B9 /* Log.swift in Sources */,
-				C2F701722B7405CA001390E1 /* PopularVendorsDatabase.swift in Sources */,
 				C2F7017A2B74FB63001390E1 /* OUIs.swift in Sources */,
 				C2456FEF2B3B1809007D7AEA /* NetworkObserver.swift in Sources */,
 				C2456FDB2B3B16F7007D7AEA /* OUI.swift in Sources */,
-				C225BDB02B1FBA4000FFD119 /* Listener.swift in Sources */,
 				C24570402B49DC9B007D7AEA /* Advisor.swift in Sources */,
 				C2F3DA2D2B36C71A00977572 /* Synchronization.swift in Sources */,
 				C2F701762B74F771001390E1 /* PopularVendors.swift in Sources */,
@@ -1221,6 +1229,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1278,6 +1287,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -1294,10 +1304,11 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LinkLiar/Preview Content\"";
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/include";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -1305,10 +1316,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/target/release";
 				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LinkLiar/LinkLiar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -1325,10 +1338,11 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"LinkLiar/Preview Content\"";
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/include";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -1336,10 +1350,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/target/release";
 				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LinkLiar/LinkLiar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -1347,18 +1363,20 @@
 		C266994E2AE55EFD00592008 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = B9J4QR64LK;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/include";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/target/release";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiarTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "LinkLiar/LinkLiar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinkLiar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LinkLiar";
 			};
@@ -1367,18 +1385,20 @@
 		C266994F2AE55EFD00592008 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = B9J4QR64LK;
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/include";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/target/release";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiarTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "LinkLiar/LinkLiar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LinkLiar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LinkLiar";
 			};
@@ -1387,7 +1407,6 @@
 		C26699512AE55EFD00592008 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -1405,7 +1424,6 @@
 		C26699522AE55EFD00592008 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -1427,12 +1445,15 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/include";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/target/release";
 				OTHER_CODE_SIGN_FLAGS = "\"-i io.github.halo.LinkLiar.linkdaemon\\\"\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiar.linkdaemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LinkLiar/LinkLiar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -1444,12 +1465,15 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = B9J4QR64LK;
+				DEVELOPMENT_TEAM = L53YAP4478;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/include";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/linktools-rs/target/release";
 				OTHER_CODE_SIGN_FLAGS = "\"-i io.github.halo.LinkLiar.linkdaemon\\\"\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.halo.LinkLiar.linkdaemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LinkLiar/LinkLiar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

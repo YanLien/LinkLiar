@@ -8,6 +8,8 @@ extension Config {
 
     var dictionary: [String: Any]
 
+    // MARK: Public Instance Properties
+
     // Proxy them, so that the state is observed.
     var popular: [Vendor] {
       PopularVendors.all

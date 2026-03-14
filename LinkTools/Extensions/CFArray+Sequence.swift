@@ -3,7 +3,7 @@
 
 import Foundation
 
-extension CFArray: Sequence {
+extension CFArray: @retroactive Sequence {
 
   /// Just a little helper to loop through a CFArray.
   /// Kindly provided by http://stackoverflow.com/a/32127187
@@ -21,3 +21,4 @@ extension CFArray: Sequence {
   }
 
 }
+    

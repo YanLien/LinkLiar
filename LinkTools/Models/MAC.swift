@@ -18,19 +18,19 @@ struct MAC: Equatable {
   }
 
   var integers: [UInt8] {
-    address.split(separator: ":")
-           .joined()
-           .map { UInt8(String($0), radix: 16)! }
+    address.split(separator: ":").compactMap { UInt8($0, radix: 16) }
   }
 
   // MARK: Instance Methods
 
   func anonymous(_ anonymize: Bool) -> String {
     if anonymize {
-      return MACAnonymizer.anonymize(self)
-    } else {
-      return address
+      let interfaces = Interfaces.all(.none)
+      if let interface = interfaces.first(where: { $0.hardMAC == self }) {
+        return String(String(repeating: "e\(interface.bsd.number):", count: 6).dropLast())
+      }
     }
+    return address
   }
 
   // MARK: Private Instance Properties

@@ -6,19 +6,16 @@ import Foundation
 
 class WifiState {
   // MARK: Class Methods
-
   init(_ BSDName: String) {
     self.BSDName = BSDName
   }
 
   // MARK: Instance Properties
-
   /// The BSD Name of a network interface. This property is read-only.
   /// For example `en0` or `en1`.
   private(set) var BSDName: String
 
   // MARK: Instance Methods
-
   func prepare() {
     // If this is not a Wi-Fi interface, do nothing.
     guard let interface = getInterface else { return }
@@ -26,17 +23,16 @@ class WifiState {
     // When a MacBook Wi-Fi is connected to an iPhone hotspot,
     // there is no SSID. So we check the signal strength, to
     // determine whether the Wi-Fi is currently associated.
-//    guard interface.rssiValue() != 0 else {
-//      Log.info("\(BSDName) is not connected to any Wi-Fi network")
-//      return
-//    }
+    // guard interface.rssiValue() != 0 else {
+    //   Log.info("\(BSDName) is not connected to any Wi-Fi network")
+    //   return
+    // }
 
     // If we are associated, and the access point SSID is known,
     // then we might as well remember it and reconnect to it later.
 
     // This doesn't work:
     // associatedSsid = interface.ssid()
-
     Log.info("Disassociating Wi-Fi \(BSDName) connection...")
 
     // Cannot be connected to an access point while changing MAC address.
@@ -47,9 +43,8 @@ class WifiState {
 
   func restore() {
     // Can only restore Wi-Fi interfaces.
-//    if getInterface == nil { return }
-//    return
-
+    // if getInterface == nil { return }
+    // return
   }
 
   // MARK: Private Instance Properties

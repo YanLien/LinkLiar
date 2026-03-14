@@ -54,16 +54,18 @@ class Executor {
       for interface in self.interfaces {
         group.enter()
 
-        Log.info("Checking rerandomization for Interface \(interface.bsd.name)")
-        let arbiter = self.config.arbiter(interface.hardMAC)
+        interfaceQueue.async {
+          Log.info("Checking rerandomization for Interface \(interface.bsd.name)")
+          let arbiter = self.config.arbiter(interface.hardMAC)
 
-        if arbiter.action == .random {
-          Log.debug("Taking the chance to re-randomize \(interface.bsd.name)")
-          Ifconfig.Setter(interface.bsd.name).setSoftMAC(arbiter.randomAddress())
-        } else {
-          Log.debug("Not re-randomizing \(interface.bsd.name) because it is not defined to be random.")
+          if arbiter.action == .random {
+            Log.debug("Taking the chance to re-randomize \(interface.bsd.name)")
+            Ifconfig.Setter(interface.bsd.name).setSoftMAC(arbiter.randomAddress())
+          } else {
+            Log.debug("Not re-randomizing \(interface.bsd.name) because it is not defined to be random.")
+          }
+          group.leave()
         }
-        group.leave()
       }
 
       Log.debug("Waiting for interfaces to finish rerandomizing")
@@ -78,15 +80,13 @@ class Executor {
   }
 
   // MARK: Private Instance Properties
-
   private var config: Config.Reader = Config.Reader([:])
   private var interfaces: [Interface] = []
   private var synchronizations = [String: Synchronization]()
   private let executorQueue = DispatchQueue(label: "\(Identifiers.daemon).serialExecutorQueue")
   private let interfaceQueue = DispatchQueue(label: "\(Identifiers.daemon).parallelInterfaceQueue", attributes: .concurrent)
 
-  // MARK: Private Instance Properties
-
+  // MARK: Private Instance Methods
   private func queued(_ block: () -> Void) {
     // ...because we don't want race-conditions when reading the configuration file
     // and comparing that with the currently attached hardware interfaces.

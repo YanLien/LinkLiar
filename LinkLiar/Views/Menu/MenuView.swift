@@ -6,6 +6,7 @@ import SwiftUI
 struct MenuView: View {
   @State var observer: NSKeyValueObservation?
   @Environment(LinkState.self) private var state
+  @Environment(\.openSettings) private var openSettings
 
   @State var selectedItem: String = ""
   @State var items = ["One", "Two"]
@@ -24,8 +25,12 @@ struct MenuView: View {
       }
 
       HStack {
-        SettingsLink {
-//          Image(systemName: "gear").imageScale(.medium)
+        Button {
+          // Activate the app to bring it to front
+          NSApp.activate(ignoringOtherApps: true)
+          // Open settings window
+          openSettings()
+        } label: {
           Text("Settings")
         }.keyboardShortcut(",", modifiers: .command)
           .buttonStyle(.accessoryBar)
@@ -40,6 +45,11 @@ struct MenuView: View {
     }.padding(12)
       .fixedSize()
       .onAppear {
+        // Query daemon registration status on first appear
+        if state.daemonRegistration == .unknown {
+          Controller.queryDaemonRegistration(state: state)
+        }
+        
         // See https://damian.fyi/swift/2022/12/29/detecting-when-a-swiftui-menubarextra-with-window-style-is-opened.html
         // For some reason this also triggers when the Settings view received or loosed focus.
         // I guess that's a good thing.

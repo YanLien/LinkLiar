@@ -46,6 +46,17 @@ class Radio {
     })
   }
 
+  /// Force the daemon to immediately run a synchronization
+  static func forceRun(state: LinkState, completion: @escaping () -> Void = {}) {
+    transceive(state: state, block: { listener in
+      listener.forceRun(reply: { success in
+        Log.debug("Daemon forceRun completed successfully: \(success)")
+        state.xpcStatus = .connected
+        completion()
+      })
+    })
+  }
+
 //  static func uninstallDaemon(reply: @escaping (Bool) -> Void) {
 //    usingHelper(block: { helper in
 //      helper.uninstallDaemon(reply: { success in
@@ -118,6 +129,32 @@ class Radio {
 
   // MARK: Private Functions
 
+  /// Build an NSXPCInterface with explicit allowed classes for all methods,
+  /// avoiding the default [NSObject] that triggers the NSSecureCoding warning.
+  private static func configuredInterface() -> NSXPCInterface {
+    let interface = NSXPCInterface(with: ListenerProtocol.self)
+    let stringClasses = NSSet(array: [NSString.self]) as Set
+    let numberClasses = NSSet(array: [NSNumber.self]) as Set
+
+    // version(reply: (String) -> Void) — reply argument 0 is a String
+    interface.setClasses(stringClasses,
+                         for: #selector(ListenerProtocol.version(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    // createConfigDirectory(reply: (Bool) -> Void)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.createConfigDirectory(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    // removeConfigDirectory(reply: (Bool) -> Void)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.removeConfigDirectory(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    // forceRun(reply: (Bool) -> Void)
+    interface.setClasses(numberClasses,
+                         for: #selector(ListenerProtocol.forceRun(reply:)),
+                         argumentIndex: 0, ofReply: true)
+    return interface
+  }
+
   private static func transceive(state: LinkState, block: @escaping (ListenerProtocol) -> Void) {
     // swiftlint:disable force_cast
     let helper = connection(state: state)?.remoteObjectProxyWithErrorHandler({ error in
@@ -135,8 +172,7 @@ class Radio {
     Log.debug(Identifiers.daemon.rawValue)
     xpcConnection = NSXPCConnection(machServiceName: Identifiers.daemon.rawValue, options: NSXPCConnection.Options.privileged)
     Log.debug("xpcConnection: \(xpcConnection!.description)")
-    xpcConnection!.exportedObject = self
-    xpcConnection!.remoteObjectInterface = NSXPCInterface(with: ListenerProtocol.self)
+    xpcConnection!.remoteObjectInterface = Self.configuredInterface()
 
     xpcConnection!.interruptionHandler = {
       xpcConnection?.interruptionHandler = nil

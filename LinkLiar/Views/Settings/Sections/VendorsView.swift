@@ -7,17 +7,93 @@ import SwiftUI
 extension SettingsView {
   struct VendorsView: View {
     @Environment(LinkState.self) private var state
-
+    @StateObject private var vendorUpdater = VendorUpdater.shared
+    
     @State private var selectedVendors = Set<Vendor.ID>()
+    @State private var refreshTrigger = false
 
     var body: some View {
-      VStack {
+      VStack(spacing: 16) {
         Text("""
              When LinkLiar is supposed to randomize the MAC address of an Interface, \
              you can tell it here from which vendors it should pick a prefix.
-             """) // .multilineTextAlignment(.leading)
+             """)
 
-        Table(state.config.vendors.popular, selection: $selectedVendors) {
+        // Vendor database status and update section
+        VStack(alignment: .leading, spacing: 8) {
+          Divider()
+          
+          HStack {
+            VStack(alignment: .leading, spacing: 4) {
+              Text("Vendor Database")
+                .font(.headline)
+              
+              HStack {
+                Text("Entries: \(vendorUpdater.entryCount)")
+                  .font(.subheadline)
+                  .foregroundColor(.secondary)
+                
+                if let lastUpdate = vendorUpdater.lastUpdateDate {
+                  Text("•")
+                    .foregroundColor(.secondary)
+                  Text("Updated: \(lastUpdate.formatted(.relative(presentation: .named)))")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                }
+              }
+            }
+            
+            Spacer()
+            
+            if vendorUpdater.isUpdating {
+              VStack(alignment: .trailing, spacing: 4) {
+                ProgressView()
+                  .progressViewStyle(.circular)
+                  .controlSize(.small)
+                Text("\(Int(vendorUpdater.downloadProgress * 100))%")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+              .frame(width: 60, height: 40)
+              
+              Button("Cancel") {
+                vendorUpdater.isUpdating = false
+              }
+            } else {
+              Button("Update") {
+                Task {
+                  await vendorUpdater.updateVendors()
+                }
+              }
+              .buttonStyle(.borderedProminent)
+              
+              if vendorUpdater.hasCache {
+                Button("Reset") {
+                  try? vendorUpdater.clearCache()
+                  MACVendors.load()
+                  PopularVendors.reloadDatabase()
+                  refreshTrigger.toggle()
+                }
+                .buttonStyle(.bordered)
+              }
+            }
+          }
+          
+          if let error = vendorUpdater.errorMessage {
+            HStack {
+              Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundColor(.orange)
+              Text(error)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            }
+          }
+          
+          Divider()
+        }
+        .padding(.horizontal)
+
+        Table(refreshTrigger ? state.config.vendors.popular : state.config.vendors.popular, selection: $selectedVendors) {
 
           TableColumn("On") { vendor in
             let isChosen = Binding<Bool>(
@@ -34,12 +110,19 @@ extension SettingsView {
             Text("\(vendor.prefixCount)")
           }.width(50)
         }
-      }.padding().onAppear {
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-          if Int(event.keyCode) == CGKeyCode.kVKSpace {
-            toggleSelectedVendors()
+        .padding()
+        .onAppear {
+          NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            if Int(event.keyCode) == CGKeyCode.kVKSpace {
+              toggleSelectedVendors()
+            }
+            return event // No need to modify or otherwise intercept the received event.
           }
-          return event // No need to modify or otherwise intercept the received event.
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .vendorDatabaseDidUpdate)) { _ in
+          // Reload vendors cache and trigger view refresh
+          PopularVendors.reloadDatabase()
+          refreshTrigger.toggle()
         }
       }
     }
@@ -77,5 +160,5 @@ extension SettingsView {
 #Preview {
    let state = LinkState()
 
-  return SettingsView.VendorsView().environment(state)
+   return SettingsView.VendorsView().environment(state)
 }

@@ -51,8 +51,9 @@ class Interface: Identifiable {
     return  _softMAC
   }
 
-  var softOUI: OUI {
-    OUI(softMAC!.prefix)!
+  var softOUI: OUI? {
+    guard let mac = softMAC else { return nil }
+    return OUI(mac.prefix)
   }
 
   var hasOriginalMAC: Bool {
@@ -117,7 +118,7 @@ class Interface: Identifiable {
         guard let address = potentialAddress else { return }
 
         DispatchQueue.main.async {
-//          Log.debug("Setting softMAC to \(address.address)")
+          Log.debug("Setting softMAC to \(address.address)")
           self._softMAC = address
         }
       })
